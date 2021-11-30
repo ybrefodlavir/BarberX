@@ -12,8 +12,8 @@ class ApiService {
 
   final String baseUrl = 'http://192.168.43.50:80/api/';
 
-  Future<String> register(String name, String email, String password,
-      String passwordConfirm, String deviceName) async {
+  Future<String> register(String name, String email, String phone,
+      String password, String passwordConfirm, String deviceName) async {
     String uri = baseUrl + 'auth/register';
 
     http.Response response = await http.post(Uri.parse(uri),
@@ -24,6 +24,7 @@ class ApiService {
         body: jsonEncode({
           'name': name,
           'email': email,
+          'phone': phone,
           'password': password,
           'password_confirmation': passwordConfirm,
           'device_name': deviceName

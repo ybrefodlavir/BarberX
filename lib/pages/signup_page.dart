@@ -1,3 +1,4 @@
+// import 'dart:ffi';
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ class _SignUpState extends State<SignUp> {
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
 
@@ -158,7 +160,18 @@ class _SignUpState extends State<SignUp> {
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(bottom: 15, right: 10),
-                            child: TextField(
+                            child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: emailController,
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter email';
+                                }
+
+                                return null;
+                              },
+                              onChanged: (text) =>
+                                  setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
@@ -208,7 +221,17 @@ class _SignUpState extends State<SignUp> {
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(bottom: 15, right: 10),
-                            child: TextField(
+                            child: TextFormField(
+                              keyboardType: TextInputType.name,
+                              controller: phoneController,
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter phone';
+                                }
+                                return null;
+                              },
+                              onChanged: (text) =>
+                                  setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
@@ -258,8 +281,20 @@ class _SignUpState extends State<SignUp> {
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(bottom: 15, right: 10),
-                            child: TextField(
+                            child: TextFormField(
                               obscureText: true,
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              controller: passwordController,
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter password';
+                                }
+
+                                return null;
+                              },
+                              onChanged: (text) =>
+                                  setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
@@ -310,8 +345,20 @@ class _SignUpState extends State<SignUp> {
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(bottom: 15, right: 10),
-                            child: TextField(
+                            child: TextFormField(
                               obscureText: true,
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              controller: passwordConfirmController,
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
+                                  return 'Repeat password';
+                                }
+
+                                return null;
+                              },
+                              onChanged: (text) =>
+                                  setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
@@ -377,6 +424,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
+                  Text(errorMessage, style: TextStyle(color: Colors.red)),
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Column(
@@ -422,8 +470,13 @@ class _SignUpState extends State<SignUp> {
     final AuthProvider provider =
         Provider.of<AuthProvider>(context, listen: false);
     try {
-      await provider.register(nameController.text, emailController.text,
-          passwordController.text, passwordConfirmController.text, deviceName);
+      await provider.register(
+          nameController.text,
+          emailController.text,
+          phoneController.text,
+          passwordController.text,
+          passwordConfirmController.text,
+          deviceName);
 
       Navigator.pop(context);
     } catch (Exception) {
