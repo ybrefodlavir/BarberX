@@ -8,33 +8,32 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor : Color(0xff1D2434),
+      backgroundColor: Color(0xff1D2434),
       body: SingleChildScrollView(
         child: Container(
-          color: Color(0xff1D2434),
-          child: Column(
-            children: [
-              Image.asset(
-                'image/logo.png',
-                width: 45,
-              ),
-              Text(
-                "Halo Rivaldo,",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 35,
+            color: Color(0xff1D2434),
+            child: Column(
+              children: [
+                Image.asset(
+                  'image/logo.png',
+                  width: 45,
                 ),
-              ),
-              Text(
-                "Sudah potong rambutkah hari ini?",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
+                Text(
+                  "Halo Rivaldo,",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                  ),
                 ),
-              ),
-            ],
-          )
-        ),
+                Text(
+                  "Sudah potong rambutkah hari ini?",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                  ),
+                ),
+              ],
+            )),
       ),
     );
   }

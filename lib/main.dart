@@ -13,28 +13,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => AuthProvider(),
-        child: Consumer<AuthProvider>(builder: (context, authProvider, child) {
-          return MultiProvider(
-              providers: [
-                // ChangeNotifierProvider<CategoryProvider>(
-                //     create: (context) => CategoryProvider(authProvider)),
-                // ChangeNotifierProvider<TransactionProvider>(
-                //     create: (context) => TransactionProvider(authProvider))
-              ],
-              child: MaterialApp(title: 'Welcome to BarberX', routes: {
-                '/': (context) {
-                  final authProvider = Provider.of<AuthProvider>(context);
-                  if (authProvider.isAuthenticated) {
-                    return Home();
-                  } else {
-                    return WelcomePage();
-                  }
-                },
-                '/signin': (context) => SignIn(),
-                '/signup': (context) => SignUp(),
-                '/home': (context) => Home(),
-              }));
-        }));
+      create: (context) => AuthProvider(),
+      child: MaterialApp(title: 'Welcome to BarberX', routes: {
+        '/': (context) {
+          final authProvider = Provider.of<AuthProvider>(context);
+          if (authProvider.isAuthenticated) {
+            return Home();
+          } else {
+            return WelcomePage();
+          }
+        },
+        '/signin': (context) => SignIn(),
+        '/signup': (context) => SignUp(),
+        '/home': (context) => Home(),
+      }),
+    );
   }
 }
