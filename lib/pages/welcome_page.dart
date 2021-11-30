@@ -48,6 +48,7 @@ class WelcomePage extends StatelessWidget {
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
                       ),
+                      
                       onPressed: () {
                         Navigator.pushNamed(context, '/signin');
                       },
@@ -65,9 +66,7 @@ class WelcomePage extends StatelessWidget {
                     height: 40,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/signup');
-                    },
+                    onPressed: () {},
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
