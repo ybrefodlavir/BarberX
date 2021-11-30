@@ -1,5 +1,5 @@
 import 'package:barber/pages/welcome_page.dart';
-// import 'dart.js';
+//import 'dart.js';
 import 'package:barber/pages/signin_page.dart';
 import 'package:barber/pages/signup_page.dart';
 import 'package:barber/pages/home_page.dart';
@@ -7,6 +7,19 @@ import 'package:barber/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+<<<<<<< HEAD
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    initialRoute: '/signin',
+    routes: {
+      '/': (context) => WelcomePage(),
+      '/signin': (context) => SignIn(),
+      '/signup': (context) => SignUp(),
+      '/home': (context) => Home(),
+    },
+  ));
+=======
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -29,4 +42,5 @@ class MyApp extends StatelessWidget {
       }),
     );
   }
+>>>>>>> 068f2daf507f8443bec40c55ee74e6b9151417c6
 }
