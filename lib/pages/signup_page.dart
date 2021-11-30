@@ -332,7 +332,7 @@ class SignUp extends StatelessWidget {
                           MaterialStateProperty.all(Colors.transparent),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/signin');
+                      Navigator.pushNamed(context, '/home');
                     },
                     child: Text(
                       "Sign Up",

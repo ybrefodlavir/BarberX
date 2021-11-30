@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-// import 'dart:ffi';
-=======
->>>>>>> 527f9f281ec95e73587de7415349632455d11336
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -183,7 +179,7 @@ class SignIn extends StatelessWidget {
                           MaterialStateProperty.all(Colors.transparent),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/signin');
+                      Navigator.pushNamed(context, '/home');
                     },
                     child: Text(
                       "Sign In",
