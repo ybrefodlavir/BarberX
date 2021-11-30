@@ -7,7 +7,6 @@ import 'package:barber/providers/AuthProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:device_info/device_info.dart';
 
-
 class SignIn extends StatefulWidget {
   const SignIn();
 
@@ -221,7 +220,6 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     child: ElevatedButton(
-                      
                       style: ButtonStyle(
                         minimumSize: MaterialStateProperty.all(Size(300, 50)),
                         backgroundColor:
@@ -276,6 +274,7 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
+
   Future<void> submit() async {
     final form = _formKey.currentState;
 
@@ -287,7 +286,7 @@ class _SignInState extends State<SignIn> {
         Provider.of<AuthProvider>(context, listen: false);
     try {
       await provider.login(
-          emailController.text, passwordController.text, deviceName);
+          loginController.text, passwordController.text, deviceName);
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');
@@ -317,9 +316,3 @@ class _SignInState extends State<SignIn> {
     }
   }
 }
-
-
-
-
-
-
