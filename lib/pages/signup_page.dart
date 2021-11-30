@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatelessWidget {
-  const SignIn({Key? key}) : super(key: key);
+class SignUp extends StatelessWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -43,7 +43,7 @@ class SignIn extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      "Sign In",
+                      "Sign Up",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -53,7 +53,7 @@ class SignIn extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 100,
+                  height: 30,
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 10),
@@ -103,7 +103,107 @@ class SignIn extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 15,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10),
+                  height: 60,
+                  width: 364,
+                  color: Color(0xff35415D),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'image/email.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 15, right: 10),
+                          child: TextField(
+                            style: TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffA39270)),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffA39270)),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffA39270)),
+                              ),
+                              contentPadding:
+                                  EdgeInsets.only(left: 5.0, bottom: -10),
+                              hintText: "Email",
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffA39270),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10),
+                  height: 60,
+                  width: 364,
+                  color: Color(0xff35415D),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'image/phone.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 15, right: 10),
+                          child: TextField(
+                            style: TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffA39270)),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffA39270)),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffA39270)),
+                              ),
+                              contentPadding:
+                                  EdgeInsets.only(left: 5.0, bottom: -10),
+                              hintText: "Phone",
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffA39270),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 10),
@@ -155,7 +255,59 @@ class SignIn extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 100,
+                  height: 15,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10),
+                  height: 60,
+                  width: 364,
+                  color: Color(0xff35415D),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'image/password.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 15, right: 10),
+                          child: TextField(
+                            obscureText: true,
+                            style: TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffA39270),
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffA39270)),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffA39270)),
+                              ),
+                              contentPadding:
+                                  EdgeInsets.only(left: 5.0, bottom: -10),
+                              hintText: "Confirm Password",
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffA39270),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -183,7 +335,7 @@ class SignIn extends StatelessWidget {
                       Navigator.pushNamed(context, '/signin');
                     },
                     child: Text(
-                      "Sign In",
+                      "Sign Up",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -197,7 +349,7 @@ class SignIn extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "You don't have an account?",
+                        "You have an account?",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -205,10 +357,10 @@ class SignIn extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/signup');
+                          Navigator.pushNamed(context, '/signin');
                         },
                         child: Text(
-                          "Sign Up",
+                          "Sign In",
                           style: TextStyle(
                             color: Color(0xffD5B981),
                             fontSize: 15,
