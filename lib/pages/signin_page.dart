@@ -240,6 +240,7 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                   ),
+                  Text(errorMessage, style: TextStyle(color: Colors.red)),
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Column(
