@@ -77,7 +77,11 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   SizedBox(
-                    height: 100,
+                    height: 50,
+                  ),
+                  Text(errorMessage, style: TextStyle(color: Colors.red[200])),
+                  SizedBox(
+                    height: 50,
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 10),
@@ -106,11 +110,11 @@ class _SignInState extends State<SignIn> {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter username or email';
                                 }
-
                                 return null;
                               },
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
+                                errorStyle: TextStyle(color: Colors.red[200]),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xffA39270)),
@@ -170,11 +174,11 @@ class _SignInState extends State<SignIn> {
                                 if (value!.isEmpty) {
                                   return 'Please enter password';
                                 }
-
                                 return null;
                               },
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
+                                errorStyle: TextStyle(color: Colors.red[200]),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Color(0xffA39270),
@@ -240,7 +244,6 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                   ),
-                  Text(errorMessage, style: TextStyle(color: Colors.red)),
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Column(
@@ -288,7 +291,7 @@ class _SignInState extends State<SignIn> {
     try {
       await provider.login(
           loginController.text, passwordController.text, deviceName);
-          Navigator.pop(context);
+      Navigator.pop(context);
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');

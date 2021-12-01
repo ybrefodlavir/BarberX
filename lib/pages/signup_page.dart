@@ -80,7 +80,11 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 15,
+                  ),
+                  Text(errorMessage, style: TextStyle(color: Colors.red[200])),
+                  SizedBox(
+                    height: 15,
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 10),
@@ -113,6 +117,7 @@ class _SignUpState extends State<SignUp> {
                                   setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
+                                errorStyle: TextStyle(color: Colors.red[200]),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xffA39270)),
@@ -127,7 +132,7 @@ class _SignUpState extends State<SignUp> {
                                 ),
                                 contentPadding:
                                     EdgeInsets.only(left: 5.0, bottom: -10),
-                                hintText: "Username or Email",
+                                hintText: "Username",
                                 hintStyle: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xffA39270),
@@ -167,13 +172,13 @@ class _SignUpState extends State<SignUp> {
                                 if (value!.isEmpty) {
                                   return 'Enter email';
                                 }
-
                                 return null;
                               },
                               onChanged: (text) =>
                                   setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
+                                errorStyle: TextStyle(color: Colors.red[200]),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xffA39270)),
@@ -234,6 +239,7 @@ class _SignUpState extends State<SignUp> {
                                   setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
+                                errorStyle: TextStyle(color: Colors.red[200]),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Color(0xffA39270)),
@@ -290,13 +296,13 @@ class _SignUpState extends State<SignUp> {
                                 if (value!.isEmpty) {
                                   return 'Enter password';
                                 }
-
                                 return null;
                               },
                               onChanged: (text) =>
                                   setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
+                                errorStyle: TextStyle(color: Colors.red[200]),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Color(0xffA39270),
@@ -354,13 +360,13 @@ class _SignUpState extends State<SignUp> {
                                 if (value!.isEmpty) {
                                   return 'Repeat password';
                                 }
-
                                 return null;
                               },
                               onChanged: (text) =>
                                   setState(() => errorMessage = ''),
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
+                                errorStyle: TextStyle(color: Colors.red[200]),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Color(0xffA39270),
@@ -426,7 +432,6 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
-                  Text(errorMessage, style: TextStyle(color: Colors.red)),
                   Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Column(
