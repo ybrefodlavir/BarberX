@@ -1,10 +1,18 @@
 import 'dart:ui';
+import 'package:barber/providers/AuthProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,10 +162,37 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
+              // Nyobaaaaaa aja
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        logout();
+                      },
+                      child: Text(
+                        "Log out",
+                        style: TextStyle(
+                          color: Color(0xffD5B981),
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> logout() async {
+    final AuthProvider provider =
+        Provider.of<AuthProvider>(context, listen: false);
+
+    await provider.logOut();
   }
 }

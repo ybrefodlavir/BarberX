@@ -10,7 +10,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://192.168.43.50:80/api/';
+  final String baseUrl = 'http://192.168.2.109:80/api/';
 
   Future<String> register(String name, String email, String phone,
       String password, String passwordConfirm, String deviceName) async {
@@ -46,7 +46,7 @@ class ApiService {
     return response.body;
   }
 
-  Future<String> login(String email, String password, String deviceName) async {
+  Future<String> login(String login, String password, String deviceName) async {
     String uri = baseUrl + 'auth/login';
 
     http.Response response = await http.post(Uri.parse(uri),
@@ -55,7 +55,7 @@ class ApiService {
           HttpHeaders.acceptHeader: 'application/json',
         },
         body: jsonEncode(
-            {'email': email, 'password': password, 'device_name': deviceName}));
+            {'login': login, 'password': password, 'device_name': deviceName}));
 
     if (response.statusCode == 422) {
       Map<String, dynamic> body = jsonDecode(response.body);
