@@ -10,7 +10,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://192.168.2.109:80/api/';
+  final String baseUrl = 'http://192.168.100.12:8000/api/';
 
   Future<String> register(String name, String email, String phone,
       String password, String passwordConfirm, String deviceName) async {
