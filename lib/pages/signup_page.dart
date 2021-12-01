@@ -413,7 +413,9 @@ class _SignUpState extends State<SignUp> {
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
                       ),
-                      onPressed: () => submit(),
+                      onPressed: () {
+                        submit();
+                      },
                       child: Text(
                         "Sign Up",
                         style: TextStyle(

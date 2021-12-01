@@ -288,6 +288,7 @@ class _SignInState extends State<SignIn> {
     try {
       await provider.login(
           loginController.text, passwordController.text, deviceName);
+          Navigator.pop(context);
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');
