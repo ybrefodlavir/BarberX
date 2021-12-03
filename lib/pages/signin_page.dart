@@ -21,12 +21,10 @@ class _SignInState extends State<SignIn> {
   final passwordController = TextEditingController();
 
   String errorMessage = '';
-  late String deviceName;
 
   @override
   void initState() {
     super.initState();
-    getDeviceName();
   }
 
   @override
@@ -289,34 +287,11 @@ class _SignInState extends State<SignIn> {
     final AuthProvider provider =
         Provider.of<AuthProvider>(context, listen: false);
     try {
-      await provider.login(
-          loginController.text, passwordController.text, deviceName);
+      await provider.login(loginController.text, passwordController.text);
       Navigator.pop(context);
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');
-      });
-    }
-  }
-
-  Future<void> getDeviceName() async {
-    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-
-    try {
-      if (Platform.isAndroid) {
-        var build = await deviceInfoPlugin.androidInfo;
-        setState(() {
-          deviceName = build.model;
-        });
-      } else if (Platform.isIOS) {
-        var build = await deviceInfoPlugin.iosInfo;
-        setState(() {
-          deviceName = build.model;
-        });
-      }
-    } on PlatformException {
-      setState(() {
-        deviceName = 'Failed to get platform version';
       });
     }
   }

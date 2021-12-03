@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:barber/providers/AuthProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,6 +15,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var userData;
+
+  @override
+  void initState() {
+    _getUserInfo();
+    super.initState();
+  }
+
+  void _getUserInfo() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userJson = localStorage.getString('token');
+    var user = json.decode(userJson!);
+    setState(() {
+      userData = user;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +61,9 @@ class _HomeState extends State<Home> {
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 29, 150, 9),
                       child: Text(
-                        "Halo Rivaldo,",
+                        userData != null
+                            ? 'Halo ${userData['name']}'
+                            : 'Halo user',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -65,110 +86,108 @@ class _HomeState extends State<Home> {
               Stack(
                 children: [
                   Container(
-                margin: EdgeInsets.only(left: 10, right: 10, top: 45),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color(0xffF6F6F7),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 10, top: 13, right: 32),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Trusted Barbershop",
-                        style: TextStyle(
-                          color: Color(0xff35415D),
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    margin: EdgeInsets.only(left: 10, right: 10, top: 45),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Color(0xffF6F6F7),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10, right: 32, bottom: 20, top: 3),
-                      child: Text(
-                        "It's 2021 bro, don't forget to trim your hair to make it trendy!",
-                        style: TextStyle(
-                          color: Color(0xff35415D),
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    Row(
+                    child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 10, right: 32),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [                             
-                              Container(
-                                
-                                child: Text(          
-                                  "8:00 - 9:00",
-                                  style: TextStyle(
-                                    color: Color(0xff35415D),
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                
-                                child: Text(
-                                  "Opening Hour Mon - Fri",
-                                  style: TextStyle(
-                                    color: Color(0xff35415D),
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          margin: EdgeInsets.only(left: 10, top: 13, right: 32),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Trusted Barbershop",
+                            style: TextStyle(
+                              color: Color(0xff35415D),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                
-                                child: Text(
-                                  "+123 456 7890",
-                                  style: TextStyle(
-                                    color: Color(0xff35415D),
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                
-                                child: Text(
-                                  "Call Us for Appointment",
-                                  style: TextStyle(
-                                    color: Color(0xff35415D),
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          margin: EdgeInsets.only(
+                              left: 10, right: 32, bottom: 20, top: 3),
+                          child: Text(
+                            "It's 2021 bro, don't forget to trim your hair to make it trendy!",
+                            style: TextStyle(
+                              color: Color(0xff35415D),
+                              fontSize: 18,
+                            ),
                           ),
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 10, right: 32),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      "8:00 - 9:00",
+                                      style: TextStyle(
+                                        color: Color(0xff35415D),
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Opening Hour Mon - Fri",
+                                      style: TextStyle(
+                                        color: Color(0xff35415D),
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      "+123 456 7890",
+                                      style: TextStyle(
+                                        color: Color(0xff35415D),
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Call Us for Appointment",
+                                      style: TextStyle(
+                                        color: Color(0xff35415D),
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 335, top: 10, right: 9),
-                child: Image.asset(
-                  'image/logoBX.png',
-                  width: 70,
-                  height: 70,
-                ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 335, top: 10, right: 9),
+                    child: Image.asset(
+                      'image/logoBX.png',
+                      width: 70,
+                      height: 70,
                     ),
+                  ),
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(left: 10, top: 20, right: 300, bottom: 15),
+                margin:
+                    EdgeInsets.only(left: 10, top: 20, right: 300, bottom: 15),
                 child: Text(
                   "Services",
                   style: TextStyle(
@@ -180,28 +199,36 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 180,
                 child: ListView(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
                   children: [
                     Container(
                       width: 130,
                       margin: EdgeInsets.only(left: 20),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(15),
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5)),
                         color: Color(0xff35415D),
                       ),
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 15, top: 15, right: 15),
+                            margin:
+                                EdgeInsets.only(left: 15, top: 15, right: 15),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  topLeft: Radius.circular(5),
+                                  topRight: Radius.circular(5)),
                               color: Color(0xffDFC38A),
                             ),
                             child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(left: 5, top: 5, right: 5),
+                                  margin: EdgeInsets.only(
+                                      left: 5, top: 5, right: 5),
                                   child: Image.asset(
                                     'image/weddingcut.png',
                                     width: 90,
@@ -241,21 +268,29 @@ class _HomeState extends State<Home> {
                       height: 170,
                       margin: EdgeInsets.only(left: 20),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(15),
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5)),
                         color: Color(0xff35415D),
                       ),
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 15, top: 15, right: 15),
+                            margin:
+                                EdgeInsets.only(left: 15, top: 15, right: 15),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  topLeft: Radius.circular(5),
+                                  topRight: Radius.circular(5)),
                               color: Color(0xffDFC38A),
                             ),
                             child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(left: 5, top: 5, right: 5),
+                                  margin: EdgeInsets.only(
+                                      left: 5, top: 5, right: 5),
                                   child: Image.asset(
                                     'image/coloring.png',
                                     width: 90,
@@ -295,21 +330,29 @@ class _HomeState extends State<Home> {
                       height: 170,
                       margin: EdgeInsets.only(left: 20),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(15),
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5)),
                         color: Color(0xff35415D),
                       ),
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 15, top: 15, right: 15),
+                            margin:
+                                EdgeInsets.only(left: 15, top: 15, right: 15),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  topLeft: Radius.circular(5),
+                                  topRight: Radius.circular(5)),
                               color: Color(0xffDFC38A),
                             ),
                             child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(left: 5, top: 5, right: 5),
+                                  margin: EdgeInsets.only(
+                                      left: 5, top: 5, right: 5),
                                   child: Image.asset(
                                     'image/beardtrim.png',
                                     width: 90,
@@ -345,7 +388,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ],
-              ),
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 10, top: 20, right: 194),
@@ -357,7 +400,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              
+
               // Nyobaaaaaa aja
               Container(
                 margin: EdgeInsets.only(top: 20),
@@ -390,5 +433,6 @@ class _HomeState extends State<Home> {
         Provider.of<AuthProvider>(context, listen: false);
 
     await provider.logOut();
+    Navigator.pushNamed(context, '/');
   }
 }

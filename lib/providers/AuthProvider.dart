@@ -1,10 +1,13 @@
+import 'dart:convert';
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:barber/services/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool isAuthenticated = false;
-  late String token;
+  late var token;
   late ApiService apiService;
 
   AuthProvider() {
@@ -21,16 +24,16 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> register(String name, String email, String phone,
-      String password, String passwordConfirm, String deviceName) async {
+      String password, String passwordConfirm) async {
     this.token = await apiService.register(
-        name, email, phone, password, passwordConfirm, deviceName);
+        name, email, phone, password, passwordConfirm);
     setToken(this.token);
     this.isAuthenticated = true;
     notifyListeners();
   }
 
-  Future<void> login(String login, String password, String deviceName) async {
-    this.token = await apiService.login(login, password, deviceName);
+  Future<void> login(String login, String password) async {
+    this.token = await apiService.login(login, password);
     setToken(this.token);
     this.isAuthenticated = true;
     notifyListeners();
@@ -42,9 +45,17 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setToken(String token) async {
+  Future<void> setToken(token) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
+    if (token == '') {
+      await prefs.setString('token', '');
+    } else {
+      var data = jsonDecode(token);
+      var user = jsonEncode(data[0]);
+      var services = jsonEncode(data[1]);
+      await prefs.setString('token', user);
+      await prefs.setString('sevices', services);
+    }
   }
 
   Future<String> getToken() async {

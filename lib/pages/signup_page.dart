@@ -24,12 +24,10 @@ class _SignUpState extends State<SignUp> {
   final passwordConfirmController = TextEditingController();
 
   String errorMessage = '';
-  late String deviceName;
 
   @override
   void initState() {
     super.initState();
-    getDeviceName();
   }
 
   @override
@@ -482,35 +480,12 @@ class _SignUpState extends State<SignUp> {
           emailController.text,
           phoneController.text,
           passwordController.text,
-          passwordConfirmController.text,
-          deviceName);
+          passwordConfirmController.text);
 
       Navigator.pop(context);
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');
-      });
-    }
-  }
-
-  Future<void> getDeviceName() async {
-    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-
-    try {
-      if (Platform.isAndroid) {
-        var build = await deviceInfoPlugin.androidInfo;
-        setState(() {
-          deviceName = build.model;
-        });
-      } else if (Platform.isIOS) {
-        var build = await deviceInfoPlugin.iosInfo;
-        setState(() {
-          deviceName = build.model;
-        });
-      }
-    } on PlatformException {
-      setState(() {
-        deviceName = 'Failed to get platform version';
       });
     }
   }
