@@ -71,7 +71,7 @@ flutter:
     - images/logoBX.png
     - images/serviceDefault.jpg
     - images/userDefault.jpg
-    - image/editpassword.png
+    - images/editpassword.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
