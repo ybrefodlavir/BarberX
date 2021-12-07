@@ -282,38 +282,26 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-
-            // Nyobaaaaaa aja
             Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      logout();
-                    },
-                    child: Text(
-                      "Log out",
-                      style: TextStyle(
-                        color: Color(0xffD5B981),
-                        fontSize: 15,
-                      ),
-                    ),
+              margin: EdgeInsets.only(
+                top: 10,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/akun');
+                },
+                child: Text(
+                  "Ke Akun",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
                   ),
-                ],
+                ),
               ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> logout() async {
-    final AuthProvider provider =
-        Provider.of<AuthProvider>(context, listen: false);
-
-    await provider.logOut();
-    Navigator.pushNamed(context, '/');
   }
 }
