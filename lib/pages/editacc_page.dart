@@ -47,7 +47,7 @@ class _EditAccState extends State<EditAcc> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 28, left: 20),
+              margin: EdgeInsets.only(top: 28, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -95,7 +95,7 @@ class _EditAccState extends State<EditAcc> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 15, left: 20),
+              margin: EdgeInsets.only(top: 15, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -143,7 +143,7 @@ class _EditAccState extends State<EditAcc> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 15, left: 20),
+              margin: EdgeInsets.only(top: 15, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -192,7 +192,7 @@ class _EditAccState extends State<EditAcc> {
             ),
             Container(
                   height: 53,
-                  margin: EdgeInsets.only(top: 150, left: 20),
+                  margin: EdgeInsets.only(top: 150, left: 20, right: 20),
                   width: 373,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -209,7 +209,7 @@ class _EditAccState extends State<EditAcc> {
              ),
              Container(
                   height: 53,
-                  margin: EdgeInsets.only(top: 14, left: 20),
+                  margin: EdgeInsets.only(top: 14, left: 20, right: 20),
                   width: 373,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
