@@ -1,9 +1,33 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Akun extends StatelessWidget {
+class Akun extends StatefulWidget {
   const Akun({Key? key}) : super(key: key);
+
+  @override
+  State<Akun> createState() => _AkunState();
+}
+
+class _AkunState extends State<Akun> {
+  var userData;
+
+  @override
+  void initState() {
+    _getUserInfo();
+    super.initState();
+  }
+
+  void _getUserInfo() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userJson = localStorage.getString('token');
+    var user = json.decode(userJson!);
+    setState(() {
+      userData = user;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +59,9 @@ class Akun extends StatelessWidget {
                               left: 24,
                             ),
                             child: Text(
-                              "Rivaldo",
+                              userData != null
+                                  ? '${userData['username']}'
+                                  : 'username',
                               style: TextStyle(
                                 fontSize: 18,
                               ),
@@ -46,7 +72,9 @@ class Akun extends StatelessWidget {
                               left: 24,
                             ),
                             child: Text(
-                              "Rivaldo@gmail.com",
+                              userData != null
+                                  ? '${userData['email']}'
+                                  : 'example@gmail.com',
                               style: TextStyle(
                                 color: Color(0xff8D8A8A),
                               ),
@@ -93,7 +121,11 @@ class Akun extends StatelessWidget {
                           Container(
                             margin: EdgeInsets.only(top: 9),
                             width: 175,
-                            child: Text("Rivaldo"),
+                            child: Text(
+                              userData != null
+                                  ? '${userData['username']}'
+                                  : 'username',
+                            ),
                           ),
                         ],
                       ),
@@ -159,7 +191,11 @@ class Akun extends StatelessWidget {
                           Container(
                             margin: EdgeInsets.only(top: 9),
                             width: 175,
-                            child: Text("Rivaldo@gmail.com"),
+                            child: Text(
+                              userData != null
+                                  ? '${userData['email']}'
+                                  : 'example@gmail.com',
+                            ),
                           ),
                         ],
                       ),
@@ -180,8 +216,12 @@ class Akun extends StatelessWidget {
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 9),
-                            width: 100,
-                            child: Text("123456789"),
+                            width: 150,
+                            child: Text(
+                              userData != null
+                                  ? '${userData['phone']}'
+                                  : 'telepon',
+                            ),
                           ),
                         ],
                       ),
