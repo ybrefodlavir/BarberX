@@ -5,7 +5,6 @@ import 'package:barber/pages/signin_page.dart';
 import 'package:barber/pages/signup_page.dart';
 import 'package:barber/pages/home_page.dart';
 import 'package:barber/providers/AuthProvider.dart';
-import 'package:barber/providers/ServiceProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
