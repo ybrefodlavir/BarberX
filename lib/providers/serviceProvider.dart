@@ -15,7 +15,7 @@ class ServiceProvider extends ChangeNotifier {
   }
 
   Future init() async {
-    services = await apiService.fetchServices();
+    // services = await authProvider.init();
     notifyListeners();
   }
 }

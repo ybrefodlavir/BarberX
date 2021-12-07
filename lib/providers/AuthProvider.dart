@@ -1,6 +1,5 @@
 import 'dart:convert';
-// import 'dart:js';
-
+import 'package:barber/models/services.dart';
 import 'package:flutter/material.dart';
 import 'package:barber/services/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +8,7 @@ class AuthProvider extends ChangeNotifier {
   bool isAuthenticated = false;
   late var token;
   late ApiService apiService;
-
+  List<Service> services = [];
   AuthProvider() {
     init();
   }
@@ -20,6 +19,7 @@ class AuthProvider extends ChangeNotifier {
       this.isAuthenticated = true;
     }
     this.apiService = new ApiService(this.token);
+
     notifyListeners();
   }
 
@@ -57,7 +57,18 @@ class AuthProvider extends ChangeNotifier {
       await prefs.setString('sevices', services);
       var services_jason = prefs.getString('sevices');
       var realServices = jsonDecode(services_jason!);
-      // print(realServices[0]);
+      for (var i = 0; i < realServices.length; i++) {
+        var firstrealServices = realServices[i];
+        Service serviceObj = new Service(
+            serviceId: firstrealServices['service_id'],
+            categoryServiceId: firstrealServices['category_service_id'],
+            name: firstrealServices['name'].toString(),
+            price: firstrealServices['price'],
+            image: firstrealServices['image'].toString(),
+            createdAt: firstrealServices['created_at'].toString(),
+            updateAt: firstrealServices['updated_at'].toString());
+        this.services.add(serviceObj);
+      }
     }
   }
 

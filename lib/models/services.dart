@@ -2,7 +2,7 @@ class Service {
   int serviceId;
   int categoryServiceId;
   String name;
-  String price;
+  int price;
   String image;
   String createdAt;
   String updateAt;
