@@ -116,7 +116,7 @@ class Akun extends StatelessWidget {
                             child: Row(
                               children: [
                                 Image.asset(
-                                  'image/editpassword.png',
+                                  'images/editpassword.png',
                                   height: 20,
                                   width: 20,
                                 ),
