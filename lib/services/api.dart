@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:barber/models/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   late String token;
@@ -10,7 +12,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://172.20.64.1:8000/api/';
+  final String baseUrl = 'http://192.168.1.6:80/api/';
 
   Future<String> register(String name, String email, String phone,
       String password, String passwordConfirm) async {
@@ -69,5 +71,12 @@ class ApiService {
 
     // return token
     return response.body;
+  }
+
+  Future<List<Service>> fetchServices() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var servicesJson = localStorage.getString('services');
+    List services = jsonDecode(servicesJson!);
+    return services.map((services) => Service.fromJson(services)).toList();
   }
 }

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:barber/models/services.dart';
 import 'package:barber/providers/AuthProvider.dart';
+import 'package:barber/providers/serviceProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -27,13 +29,30 @@ class _HomeState extends State<Home> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userJson = localStorage.getString('token');
     var user = json.decode(userJson!);
+
     setState(() {
       userData = user;
     });
   }
 
+  // void _getServices() async {
+  //   final provider = Provider.of<ServiceProvider>(context);
+  //   List<Service> services = provider.services;
+
+  //   setState(() {
+  //     servicesData = services;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    void _getServices5() async {
+      final provider = Provider.of<ServiceProvider>(context);
+      List<Service> services = provider.services;
+
+      print(services);
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

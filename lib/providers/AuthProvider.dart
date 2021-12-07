@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:js';
+// import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:barber/services/api.dart';
@@ -55,6 +55,9 @@ class AuthProvider extends ChangeNotifier {
       var services = jsonEncode(data[1]);
       await prefs.setString('token', user);
       await prefs.setString('sevices', services);
+      var services_jason = prefs.getString('sevices');
+      var realServices = jsonDecode(services_jason!);
+      // print(realServices[0]);
     }
   }
 
