@@ -97,7 +97,7 @@ class WelcomePage extends StatelessWidget {
               ),
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/editakun');
+                  Navigator.pushNamed(context, '/detailreservasi');
                 },
                 child: Text(
                   "Learn More",
