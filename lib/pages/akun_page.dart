@@ -113,9 +113,27 @@ class Akun extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 9),
-                            width: 100,
-                            child: Text("************"),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'image/editpassword.png',
+                                  height: 20,
+                                  width: 20,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/signin');
+                                  },
+                                  child: Text(
+                                    "Edit Password",
+                                    style: TextStyle(
+                                      color: Color(0xffA78849),
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
