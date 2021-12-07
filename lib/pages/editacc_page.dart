@@ -71,7 +71,7 @@ class _EditAccState extends State<EditAcc> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Image.asset(
-                            'image/vector.png',
+                            'images/vector.png',
                             width: 17,
                             height: 16.46,
                             fit: BoxFit.fill,
@@ -119,7 +119,7 @@ class _EditAccState extends State<EditAcc> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Image.asset(
-                            'image/vecemail.png',
+                            'images/vecemail.png',
                             width: 20,
                             height: 20,
                             fit: BoxFit.fill,
@@ -167,7 +167,7 @@ class _EditAccState extends State<EditAcc> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Image.asset(
-                            'image/el_phone.png',
+                            'images/el_phone.png',
                             width: 20,
                             height: 20,
                             fit: BoxFit.fill,
