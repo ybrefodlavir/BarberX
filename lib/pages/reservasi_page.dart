@@ -174,7 +174,7 @@ class _ReservasiState extends State<Reservasi> {
                       ),
                     ),
                     Image.asset(
-                      'image/calendar.png',
+                      'images/calendar.png',
                       width: 30,
                       height: 30,
                     ),
