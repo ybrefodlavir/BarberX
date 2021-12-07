@@ -282,27 +282,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-
-            // Nyobaaaaaa aja
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      logout();
-                    },
-                    child: Text(
-                      "Log out",
-                      style: TextStyle(
-                        color: Color(0xffD5B981),
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Container(
               margin: EdgeInsets.only(
                 top: 10,
@@ -324,13 +303,5 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-  }
-
-  Future<void> logout() async {
-    final AuthProvider provider =
-        Provider.of<AuthProvider>(context, listen: false);
-
-    await provider.logOut();
-    Navigator.pushNamed(context, '/');
   }
 }

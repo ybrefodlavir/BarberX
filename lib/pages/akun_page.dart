@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:barber/providers/AuthProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Akun extends StatefulWidget {
@@ -239,7 +241,9 @@ class _AkunState extends State<Akun> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/editakun');
+                    },
                     child: Text(
                       "Ubah Data Akun",
                     ),
@@ -260,7 +264,9 @@ class _AkunState extends State<Akun> {
                         width: 1,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      logout();
+                    },
                     child: Text(
                       "Log Out",
                       style: TextStyle(
@@ -479,5 +485,13 @@ class _AkunState extends State<Akun> {
             ),
           ),
         ));
+  }
+
+  Future<void> logout() async {
+    final AuthProvider provider =
+        Provider.of<AuthProvider>(context, listen: false);
+
+    await provider.logOut();
+    Navigator.pushNamed(context, '/');
   }
 }
