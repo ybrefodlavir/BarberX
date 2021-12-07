@@ -16,7 +16,6 @@ class EditAcc extends StatefulWidget {
 }
 
 class _EditAccState extends State<EditAcc> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +44,7 @@ class _EditAccState extends State<EditAcc> {
                 ),
               ),
             ),
-            Container(
-              
-            ),
+            Container(),
           ],
         ),
       ),
