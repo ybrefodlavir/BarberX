@@ -97,10 +97,27 @@ class WelcomePage extends StatelessWidget {
               ),
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushNamed(context, '/editakun');
                 },
                 child: Text(
                   "Learn More",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 10,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/akun');
+                },
+                child: Text(
+                  "Ke Akun",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
