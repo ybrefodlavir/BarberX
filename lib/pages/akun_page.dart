@@ -46,7 +46,7 @@ class _AkunState extends State<Akun> {
                 Row(
                   children: [
                     Image.asset(
-                      'image/profile.png',
+                      'images/profile.png',
                       height: 63,
                       width: 63,
                     ),
@@ -148,7 +148,7 @@ class _AkunState extends State<Akun> {
                             child: Row(
                               children: [
                                 Image.asset(
-                                  'image/editpassword.png',
+                                  'images/editpassword.png',
                                   height: 20,
                                   width: 20,
                                 ),
