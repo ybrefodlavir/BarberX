@@ -227,7 +227,9 @@ class _EditAccState extends State<EditAcc> {
                     width: 1,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: Text(
                   "Kembali",
                   style: TextStyle(
