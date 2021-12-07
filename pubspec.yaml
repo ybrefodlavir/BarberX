@@ -66,6 +66,8 @@ flutter:
     - image/password.png
     - image/email.png
     - image/phone.png
+    - image/profile.png
+    - image/calendar.png
     - image/logoBX.png
     - image/weddingcut.png
     - image/coloring.png

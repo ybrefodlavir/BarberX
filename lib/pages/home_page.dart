@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:barber/models/services.dart';
 import 'package:barber/providers/AuthProvider.dart';
-// import 'package:barber/providers/ServiceProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
