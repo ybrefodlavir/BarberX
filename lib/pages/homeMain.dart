@@ -57,7 +57,7 @@ class _HomeMainState extends State<HomeMain> {
                   Container(
                     margin: EdgeInsets.only(left: 20, top: 26, right: 284),
                     child: Image.asset(
-                      'image/logo.png',
+                      'images/logo.png',
                       width: 110,
                       height: 34,
                     ),
@@ -182,7 +182,7 @@ class _HomeMainState extends State<HomeMain> {
                 Container(
                   margin: EdgeInsets.only(left: 335, top: 10, right: 9),
                   child: Image.asset(
-                    'image/logoBX.png',
+                    'images/logoBX.png',
                     width: 70,
                     height: 70,
                   ),
@@ -237,7 +237,7 @@ class _HomeMainState extends State<HomeMain> {
                                   margin: EdgeInsets.only(
                                       left: 5, top: 5, right: 5),
                                   child: Image.asset(
-                                    'image/weddingcut.png',
+                                    service.image,
                                     width: 90,
                                     height: 90,
                                   ),
