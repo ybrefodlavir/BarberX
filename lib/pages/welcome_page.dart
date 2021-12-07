@@ -20,7 +20,7 @@ class WelcomePage extends StatelessWidget {
                     height: 200,
                   ),
                   Image.asset(
-                    'image/logo.png',
+                    'images/logo.png',
                     width: 224,
                   ),
                   SizedBox(
@@ -101,23 +101,6 @@ class WelcomePage extends StatelessWidget {
                 },
                 child: Text(
                   "Learn More",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 10,
-              ),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/akun');
-                },
-                child: Text(
-                  "Ke Akun",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,

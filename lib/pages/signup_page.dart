@@ -45,7 +45,7 @@ class _SignUpState extends State<SignUp> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(
-                    'image/logo.png',
+                    'images/logo.png',
                     width: 224,
                   ),
                   SizedBox(
@@ -92,7 +92,7 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'image/username.png',
+                          'images/username.png',
                           width: 30,
                           height: 30,
                         ),
@@ -153,7 +153,7 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'image/email.png',
+                          'images/email.png',
                           width: 30,
                           height: 30,
                         ),
@@ -214,7 +214,7 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'image/phone.png',
+                          'images/phone.png',
                           width: 30,
                           height: 30,
                         ),
@@ -275,7 +275,7 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'image/password.png',
+                          'images/password.png',
                           width: 30,
                           height: 30,
                         ),
@@ -339,7 +339,7 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'image/password.png',
+                          'images/password.png',
                           width: 30,
                           height: 30,
                         ),

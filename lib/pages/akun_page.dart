@@ -1,9 +1,35 @@
+import 'dart:convert';
 import 'dart:ui';
+import 'package:barber/providers/AuthProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Akun extends StatelessWidget {
+class Akun extends StatefulWidget {
   const Akun({Key? key}) : super(key: key);
+
+  @override
+  State<Akun> createState() => _AkunState();
+}
+
+class _AkunState extends State<Akun> {
+  var userData;
+
+  @override
+  void initState() {
+    _getUserInfo();
+    super.initState();
+  }
+
+  void _getUserInfo() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userJson = localStorage.getString('token');
+    var user = json.decode(userJson!);
+    setState(() {
+      userData = user;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +48,7 @@ class Akun extends StatelessWidget {
                 Row(
                   children: [
                     Image.asset(
-                      'image/profile.png',
+                      'images/profile.png',
                       height: 63,
                       width: 63,
                     ),
@@ -35,7 +61,9 @@ class Akun extends StatelessWidget {
                               left: 24,
                             ),
                             child: Text(
-                              "Rivaldo",
+                              userData != null
+                                  ? '${userData['username']}'
+                                  : 'username',
                               style: TextStyle(
                                 fontSize: 18,
                               ),
@@ -46,7 +74,9 @@ class Akun extends StatelessWidget {
                               left: 24,
                             ),
                             child: Text(
-                              "Rivaldo@gmail.com",
+                              userData != null
+                                  ? '${userData['email']}'
+                                  : 'example@gmail.com',
                               style: TextStyle(
                                 color: Color(0xff8D8A8A),
                               ),
@@ -93,7 +123,11 @@ class Akun extends StatelessWidget {
                           Container(
                             margin: EdgeInsets.only(top: 9),
                             width: 175,
-                            child: Text("Rivaldo"),
+                            child: Text(
+                              userData != null
+                                  ? '${userData['username']}'
+                                  : 'username',
+                            ),
                           ),
                         ],
                       ),
@@ -116,7 +150,7 @@ class Akun extends StatelessWidget {
                             child: Row(
                               children: [
                                 Image.asset(
-                                  'image/editpassword.png',
+                                  'images/editpassword.png',
                                   height: 20,
                                   width: 20,
                                 ),
@@ -159,7 +193,11 @@ class Akun extends StatelessWidget {
                           Container(
                             margin: EdgeInsets.only(top: 9),
                             width: 175,
-                            child: Text("Rivaldo@gmail.com"),
+                            child: Text(
+                              userData != null
+                                  ? '${userData['email']}'
+                                  : 'example@gmail.com',
+                            ),
                           ),
                         ],
                       ),
@@ -180,8 +218,12 @@ class Akun extends StatelessWidget {
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 9),
-                            width: 100,
-                            child: Text("123456789"),
+                            width: 150,
+                            child: Text(
+                              userData != null
+                                  ? '${userData['phone']}'
+                                  : 'telepon',
+                            ),
                           ),
                         ],
                       ),
@@ -199,7 +241,9 @@ class Akun extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/editakun');
+                    },
                     child: Text(
                       "Ubah Data Akun",
                     ),
@@ -220,7 +264,9 @@ class Akun extends StatelessWidget {
                         width: 1,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      logout();
+                    },
                     child: Text(
                       "Log Out",
                       style: TextStyle(
@@ -439,5 +485,13 @@ class Akun extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  Future<void> logout() async {
+    final AuthProvider provider =
+        Provider.of<AuthProvider>(context, listen: false);
+
+    await provider.logOut();
+    Navigator.pushNamed(context, '/');
   }
 }
