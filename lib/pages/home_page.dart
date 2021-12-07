@@ -191,12 +191,13 @@ class _HomeState extends State<Home> {
             ),
             Container(
               margin:
-                  EdgeInsets.only(left: 10, top: 20, right: 300, bottom: 15),
+                  EdgeInsets.only(left: 10, top: 30, right: 300, bottom: 15),
               child: Text(
                 "Services",
                 style: TextStyle(
                   color: Color(0xff35415D),
-                  fontSize: 25,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -272,12 +273,13 @@ class _HomeState extends State<Home> {
                   }),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10, top: 20, right: 194),
+              margin: EdgeInsets.only(left: 10, top: 30, right: 194),
               child: Text(
                 'Where to find us?',
                 style: TextStyle(
                   color: Color(0xff35415D),
-                  fontSize: 25,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
