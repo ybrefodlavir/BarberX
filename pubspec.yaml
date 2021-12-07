@@ -72,6 +72,7 @@ flutter:
     - image/weddingcut.png
     - image/coloring.png
     - image/beardtrim.png
+    - image/editpassword.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
