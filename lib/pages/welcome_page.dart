@@ -20,7 +20,7 @@ class WelcomePage extends StatelessWidget {
                     height: 200,
                   ),
                   Image.asset(
-                    'image/logo.png',
+                    'images/logo.png',
                     width: 224,
                   ),
                   SizedBox(

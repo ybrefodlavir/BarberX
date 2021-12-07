@@ -42,7 +42,7 @@ class _SignInState extends State<SignIn> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(
-                    'image/logo.png',
+                    'images/logo.png',
                     width: 224,
                   ),
                   SizedBox(
@@ -89,7 +89,7 @@ class _SignInState extends State<SignIn> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'image/username.png',
+                          'images/username.png',
                           width: 30,
                           height: 30,
                         ),
@@ -150,7 +150,7 @@ class _SignInState extends State<SignIn> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'image/password.png',
+                          'images/password.png',
                           width: 30,
                           height: 30,
                         ),

@@ -22,7 +22,7 @@ class Akun extends StatelessWidget {
                 Row(
                   children: [
                     Image.asset(
-                      'image/profile.png',
+                      'images/profile.png',
                       height: 63,
                       width: 63,
                     ),
