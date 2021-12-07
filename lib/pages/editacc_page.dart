@@ -16,6 +16,7 @@ class EditAcc extends StatefulWidget {
 }
 
 class _EditAccState extends State<EditAcc> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,13 +82,11 @@ class _EditAccState extends State<EditAcc> {
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          borderSide:
-                              BorderSide(color: Color(0xffDAD7D2), width: 2),
+                          borderSide: BorderSide(color: Color(0xffDAD7D2), width: 2),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(3)),
-                          borderSide:
-                              BorderSide(color: Color(0xffDAD7D2), width: 2),
+                          borderSide: BorderSide(color: Color(0xffDAD7D2), width: 2),
                         ),
                       ),
                     ),
@@ -131,13 +130,11 @@ class _EditAccState extends State<EditAcc> {
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          borderSide:
-                              BorderSide(color: Color(0xffDAD7D2), width: 2),
+                          borderSide: BorderSide(color: Color(0xffDAD7D2), width: 2),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(3)),
-                          borderSide:
-                              BorderSide(color: Color(0xffDAD7D2), width: 2),
+                          borderSide: BorderSide(color: Color(0xffDAD7D2), width: 2),
                         ),
                       ),
                     ),
@@ -181,13 +178,11 @@ class _EditAccState extends State<EditAcc> {
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
-                          borderSide:
-                              BorderSide(color: Color(0xffDAD7D2), width: 2),
+                          borderSide: BorderSide(color: Color(0xffDAD7D2), width: 2),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(3)),
-                          borderSide:
-                              BorderSide(color: Color(0xffDAD7D2), width: 2),
+                          borderSide: BorderSide(color: Color(0xffDAD7D2), width: 2),
                         ),
                       ),
                     ),
@@ -196,48 +191,46 @@ class _EditAccState extends State<EditAcc> {
               ),
             ),
             Container(
-              height: 53,
-              margin: EdgeInsets.only(top: 150, left: 20),
-              width: 373,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xff1D2434),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                  height: 53,
+                  margin: EdgeInsets.only(top: 150, left: 20, right: 20),
+                  width: 373,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff1D2434),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Simpan",
+                    ),
+                  ),
+             ),
+             Container(
+                  height: 53,
+                  margin: EdgeInsets.only(top: 14, left: 20, right: 20),
+                  width: 373,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      side: BorderSide(
+                        color: Color(0xff1D2434),
+                        width: 1,
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      "Kembali",
+                      style: TextStyle(
+                        color: Color(0xff1D2434),
+                      ),
+                    ),
                   ),
                 ),
-                onPressed: () {},
-                child: Text(
-                  "Simpan",
-                ),
-              ),
-            ),
-            Container(
-              height: 53,
-              margin: EdgeInsets.only(top: 14, left: 20),
-              width: 373,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  side: BorderSide(
-                    color: Color(0xff1D2434),
-                    width: 1,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "Kembali",
-                  style: TextStyle(
-                    color: Color(0xff1D2434),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),
