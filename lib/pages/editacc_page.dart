@@ -16,6 +16,33 @@ class EditAcc extends StatefulWidget {
 }
 
 class _EditAccState extends State<EditAcc> {
+  GlobalKey<FormState> get _formKey => GlobalKey<FormState>();
+  final idController = TextEditingController();
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  String errorMessage = '';
+  var userData;
+
+  @override
+  void initState() {
+    _getUserInfo();
+    super.initState();
+  }
+
+  void _getUserInfo() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userJson = localStorage.getString('token');
+    var user = json.decode(userJson!);
+    setState(() {
+      userData = user;
+    });
+    idController.text = userData['user_id'].toString();
+    usernameController.text = userData['username'];
+    emailController.text = userData['email'];
+    phoneController.text = userData['phone'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +68,7 @@ class _EditAccState extends State<EditAcc> {
                 'Pastikan anda memasukkan data yang benar dan valid!',
                 style: TextStyle(
                   color: Color(0xffA78849),
-                  fontSize: 13,
+                  fontSize: 16,
                 ),
               ),
             ),
@@ -64,6 +91,14 @@ class _EditAccState extends State<EditAcc> {
                     margin: EdgeInsets.only(top: 12),
                     width: 374,
                     child: TextFormField(
+                      controller: usernameController,
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'Masukkan username Anda';
+                        }
+                        return null;
+                      },
+                      onChanged: (text) => setState(() => errorMessage = ''),
                       autocorrect: true,
                       decoration: InputDecoration(
                         hintText: 'Masukkan Username Anda',
@@ -114,6 +149,15 @@ class _EditAccState extends State<EditAcc> {
                     margin: EdgeInsets.only(top: 12),
                     width: 374,
                     child: TextFormField(
+                      controller: emailController,
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'Masukkan Email Anda';
+                        }
+
+                        return null;
+                      },
+                      onChanged: (text) => setState(() => errorMessage = ''),
                       autocorrect: true,
                       decoration: InputDecoration(
                         hintText: 'Masukkan Email Anda',
@@ -164,6 +208,15 @@ class _EditAccState extends State<EditAcc> {
                     margin: EdgeInsets.only(top: 12),
                     width: 374,
                     child: TextFormField(
+                      controller: phoneController,
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'Masukkan Telepon Anda';
+                        }
+
+                        return null;
+                      },
+                      onChanged: (text) => setState(() => errorMessage = ''),
                       autocorrect: true,
                       decoration: InputDecoration(
                         hintText: 'Masukkan Telepon Anda',
@@ -206,7 +259,9 @@ class _EditAccState extends State<EditAcc> {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  submit();
+                },
                 child: Text(
                   "Simpan",
                 ),
@@ -242,5 +297,31 @@ class _EditAccState extends State<EditAcc> {
         ),
       ),
     );
+  }
+
+  Future<void> submit() async {
+    final form = _formKey.currentState;
+
+    // if (!form!.validate()) {
+    //   return;
+    // }
+
+    // print(int.parse(idController.text));
+    final AuthProvider provider =
+        Provider.of<AuthProvider>(context, listen: false);
+    try {
+      await provider.postDataAkun(
+        int.parse(idController.text),
+        usernameController.text,
+        emailController.text,
+        phoneController.text,
+      );
+
+      Navigator.pushNamed(context, '/akun');
+    } catch (Exception) {
+      setState(() {
+        errorMessage = Exception.toString().replaceAll('Exception: ', '');
+      });
+    }
   }
 }

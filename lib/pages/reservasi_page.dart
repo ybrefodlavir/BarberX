@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'dart:ui';
+import 'package:barber/models/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class Reservasi extends StatefulWidget {
   const Reservasi({Key? key}) : super(key: key);
@@ -10,32 +14,74 @@ class Reservasi extends StatefulWidget {
 }
 
 class _ReservasiState extends State<Reservasi> {
-  bool status = false;
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
-  Map<String, bool> even = {
-    'Wedding Haircut\nRp 30.000,-': false,
-    'Shampoo\nRp 30.000,-': false,
-    'Curly\nRp 30.000,-': true,
-    'Hair Wash\nRp 30.000,-': false,
-  };
-  Map<String, bool> odd = {
-    'Hair Cut\nRp 20.000,-': false,
-    'Bread Shave\nRp 20.000,-': false,
-    'Bread Trim\nRp 90.000,-': false,
-    'Coloring\nRp 60.000,-': true,
-  };
-  var holder_1 = [];
+  final reservasiDateController = TextEditingController();
+
+  List<Service> services = [];
+  late Map<Service, bool> even = {};
+  late Map<Service, bool> odd = {};
+  Map<int, int> holder_1 = {};
+  late int totalPrice = 0;
+  Future<void> getData() async {
+    final prefs = await SharedPreferences.getInstance();
+    var servicesJason = prefs.getString('sevices');
+    var realServices = jsonDecode(servicesJason!);
+    for (var i = 0; i < realServices.length; i++) {
+      var firstrealServices = realServices[i];
+      Service serviceObj = Service(
+          serviceId: firstrealServices['service_id'],
+          categoryServiceId: firstrealServices['category_service_id'],
+          name: firstrealServices['name'].toString(),
+          price: firstrealServices['price'],
+          image: firstrealServices['image'].toString(),
+          createdAt: firstrealServices['created_at'].toString(),
+          updateAt: firstrealServices['updated_at'].toString());
+      setState(() {
+        services.add(serviceObj);
+      });
+    }
+    setState(() {
+      for (var i = 0; i < services.length; i++) {
+        if (services[i].serviceId % 2 == 0) {
+          even[services[i]] = false;
+        } else {
+          odd[services[i]] = false;
+        }
+      }
+    });
+  }
+
   getItems() {
     even.forEach((key, value) {
       if (value == true) {
-        holder_1.add(key);
+        setState(() {
+          holder_1[key.serviceId] = key.price;
+        });
       }
     });
     odd.forEach((key, value) {
       if (value == true) {
-        holder_1.add(key);
+        setState(() {
+          holder_1[key.serviceId] = key.price;
+        });
       }
     });
+    if (holder_1.isNotEmpty) {
+      var values = holder_1.values;
+      setState(() {
+        totalPrice = values.reduce((sum, element) => sum + element);
+      });
+    } else {
+      setState(() {
+        totalPrice = 0;
+      });
+    }
+    print(totalPrice);
     print(holder_1);
     holder_1.clear();
   }
@@ -90,9 +136,12 @@ class _ReservasiState extends State<Reservasi> {
                     Container(
                       child: Expanded(
                         child: Column(
-                          children: even.keys.map((String key) {
+                          children: even.keys.map((Service key) {
                             return CheckboxListTile(
-                              title: new Text(key),
+                              title: new Text(key.name +
+                                  "\nRp." +
+                                  key.price.toString() +
+                                  ",-"),
                               value: even[key],
                               activeColor: Color(0xffD5B981),
                               checkColor: Color(0xff1D2434),
@@ -111,9 +160,12 @@ class _ReservasiState extends State<Reservasi> {
                     Container(
                       child: Expanded(
                         child: Column(
-                          children: odd.keys.map((String key) {
+                          children: odd.keys.map((Service key) {
                             return CheckboxListTile(
-                              title: new Text(key),
+                              title: new Text(key.name +
+                                  "\nRp." +
+                                  key.price.toString() +
+                                  ",-"),
                               value: odd[key],
                               activeColor: Color(0xffD5B981),
                               checkColor: Color(0xff1D2434),
@@ -157,8 +209,11 @@ class _ReservasiState extends State<Reservasi> {
                       child: Container(
                         margin: EdgeInsets.only(right: 10),
                         child: TextField(
-                          obscureText: true,
-                          style: TextStyle(color: Colors.white),
+                          controller: reservasiDateController,
+                          onTap: () {
+                            selectDate(context);
+                          },
+                          style: TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
@@ -173,10 +228,15 @@ class _ReservasiState extends State<Reservasi> {
                         ),
                       ),
                     ),
-                    Image.asset(
-                      'images/calendar.png',
-                      width: 30,
-                      height: 30,
+                    GestureDetector(
+                      onTap: () {
+                        selectDate(context);
+                      },
+                      child: Image.asset(
+                        'images/calendar.png',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                   ],
                 ),
@@ -203,7 +263,7 @@ class _ReservasiState extends State<Reservasi> {
                     ),
                     Container(
                       child: Text(
-                        "Rp 90.000,-",
+                        "Rp." + totalPrice.toString() + ",-",
                         style: TextStyle(fontSize: 20, color: Colors.black),
                       ),
                     ),
@@ -266,5 +326,17 @@ class _ReservasiState extends State<Reservasi> {
         ),
       ),
     );
+  }
+
+  Future selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(DateTime.now().year - 5),
+        lastDate: DateTime(DateTime.now().year + 5));
+    if (picked != null)
+      setState(() {
+        reservasiDateController.text = DateFormat('MM/dd/yyyy').format(picked);
+      });
   }
 }

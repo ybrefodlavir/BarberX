@@ -22,6 +22,7 @@ class _HomeMainState extends State<HomeMain> {
   @override
   void initState() {
     _getUserInfo();
+    getData();
     super.initState();
   }
 
@@ -35,10 +36,27 @@ class _HomeMainState extends State<HomeMain> {
     });
   }
 
+  List<Service> services = [];
+  Future<void> getData() async {
+    final prefs = await SharedPreferences.getInstance();
+    var servicesJason = prefs.getString('sevices');
+    var realServices = jsonDecode(servicesJason!);
+    for (var i = 0; i < realServices.length; i++) {
+      var firstrealServices = realServices[i];
+      Service serviceObj = Service(
+          serviceId: firstrealServices['service_id'],
+          categoryServiceId: firstrealServices['category_service_id'],
+          name: firstrealServices['name'].toString(),
+          price: firstrealServices['price'],
+          image: firstrealServices['image'].toString(),
+          createdAt: firstrealServices['created_at'].toString(),
+          updateAt: firstrealServices['updated_at'].toString());
+      services.add(serviceObj);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AuthProvider>(context);
-    List<Service> services = provider.services;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

@@ -76,4 +76,11 @@ class AuthProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token') ?? '';
   }
+
+  Future<void> postDataAkun(
+      int id, String username, String email, String phone) async {
+    this.token = await apiService.postDataAkun(id, username, email, phone);
+    setToken(this.token);
+    notifyListeners();
+  }
 }
