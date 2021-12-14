@@ -69,4 +69,32 @@ class ApiService {
     // return token
     return response.body;
   }
+
+  Future<String> postDataAkun(
+      int id, String username, String email, String phone) async {
+    String uri = baseUrl + 'akun/editData/' + id.toString();
+
+    http.Response response = await http.put(Uri.parse(uri),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+        body:
+            jsonEncode({'username': username, 'email': email, 'phone': phone}));
+
+    if (response.statusCode == 422) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      Map<String, dynamic> errors = body['errors'];
+      String errorMessage = '';
+      errors.forEach((key, value) {
+        value.forEach((element) {
+          errorMessage += element + '\n';
+        });
+      });
+      throw Exception(errorMessage);
+    }
+
+    // return token
+    return response.body;
+  }
 }
