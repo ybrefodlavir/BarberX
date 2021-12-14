@@ -9,7 +9,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://172.21.112.1:8000/api/';
+  final String baseUrl = 'http://192.168.1.3:80/api/';
 
   Future<String> register(String name, String email, String phone,
       String password, String passwordConfirm) async {
@@ -53,6 +53,34 @@ class ApiService {
           HttpHeaders.acceptHeader: 'application/json',
         },
         body: jsonEncode({'login': login, 'password': password}));
+
+    if (response.statusCode == 422) {
+      Map<String, dynamic> body = jsonDecode(response.body);
+      Map<String, dynamic> errors = body['errors'];
+      String errorMessage = '';
+      errors.forEach((key, value) {
+        value.forEach((element) {
+          errorMessage += element + '\n';
+        });
+      });
+      throw Exception(errorMessage);
+    }
+
+    // return token
+    return response.body;
+  }
+
+  Future<String> postDataAkun(
+      int id, String username, String email, String phone) async {
+    String uri = baseUrl + 'akun/editData/' + id.toString();
+
+    http.Response response = await http.put(Uri.parse(uri),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+        body:
+            jsonEncode({'username': username, 'email': email, 'phone': phone}));
 
     if (response.statusCode == 422) {
       Map<String, dynamic> body = jsonDecode(response.body);
