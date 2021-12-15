@@ -32,20 +32,46 @@ class _HomeState extends State<Home> {
     }
     return Scaffold(
       body: widgetOptions.elementAt(selectedIndex),
-      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xff1D2434),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text("Home"),
+            icon: ImageIcon(
+              AssetImage("images/home.png"),
+              color: Colors.white,
+            ),
+            title: Text(
+              "Home",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            title: Text("Reservasi"),
+            icon: ImageIcon(
+              AssetImage("images/reservasi.png"),
+            ),
+            title: Text(
+              "Reservasi",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text("Akun"),
+            icon: ImageIcon(
+              AssetImage("images/user.png"),
+              color: Colors.white,
+            ),
+            title: Text(
+              "Akun",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+              ),
+            ),
           ),
         ],
         currentIndex: selectedIndex,

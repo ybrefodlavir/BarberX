@@ -6,6 +6,7 @@ import 'package:barber/pages/signin_page.dart';
 import 'package:barber/pages/signup_page.dart';
 import 'package:barber/pages/home_page.dart';
 import 'package:barber/pages/editacc_page.dart';
+import 'package:barber/pages/changepassword_page.dart';
 import 'package:barber/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
         '/akun': (context) => const Akun(),
         '/editakun': (context) => const EditAcc(),
         '/detailreservasi': (context) => const DetailReservation(),
+        '/changepassword': (context) => const ChangePassword(),
       }),
     );
   }
