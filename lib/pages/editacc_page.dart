@@ -316,8 +316,8 @@ class _EditAccState extends State<EditAcc> {
         emailController.text,
         phoneController.text,
       );
-
-      Navigator.pushNamed(context, '/akun');
+      int toPage = 2;
+      Navigator.pushNamed(context, '/home', arguments: toPage);
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');

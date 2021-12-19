@@ -12,9 +12,11 @@ import 'package:barber/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -28,19 +30,19 @@ class _MyAppState extends State<MyApp> {
         '/': (context) {
           final authProvider = Provider.of<AuthProvider>(context);
           if (authProvider.isAuthenticated) {
-            return Home();
+            return const Home();
           } else {
-            return WelcomePage();
+            return const WelcomePage();
           }
         },
-        '/signin': (context) => SignIn(),
+        '/signin': (context) => const SignIn(),
         '/signup': (context) => SignUp(),
-        '/home': (context) => Home(),
-        '/reservasi': (context) => Reservasi(),
-        '/akun': (context) => Akun(),
-        '/editakun': (context) => EditAcc(),
-        '/detailreservasi': (context) => DetailReservation(),
-        '/changepassword' : (context) => ChangePassword(),
+        '/home': (context) => const Home(),
+        '/reservasi': (context) => const Reservasi(),
+        '/akun': (context) => const Akun(),
+        '/editakun': (context) => const EditAcc(),
+        '/detailreservasi': (context) => const DetailReservation(),
+        '/changepassword': (context) => const ChangePassword(),
       }),
     );
   }

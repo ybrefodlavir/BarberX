@@ -1,14 +1,10 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:barber/models/services.dart';
-import 'package:barber/providers/AuthProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailReservation extends StatefulWidget {
   const DetailReservation({Key? key}) : super(key: key);
@@ -183,46 +179,46 @@ class _DetailReservationState extends State<DetailReservation> {
               ),
             ),
             Container(
-                  height: 53,
-                  margin: EdgeInsets.only(top: 207, left: 20, right: 20),
-                  width: 373,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0xff1D2434),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      "Kembali",
-                    ),
-                  ),
-             ),
-             Container(
-                  height: 53,
-                  margin: EdgeInsets.only(top: 14, left: 20, right: 20),
-                  width: 373,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      side: BorderSide(
-                        color: Color(0xff1D2434),
-                        width: 1,
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      "Batalkan Reservasi",
-                      style: TextStyle(
-                        color: Color(0xff1D2434),
-                      ),
-                    ),
+              height: 53,
+              margin: EdgeInsets.only(top: 207, left: 20, right: 20),
+              width: 373,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xff1D2434),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
                   ),
                 ),
+                onPressed: () {},
+                child: Text(
+                  "Kembali",
+                ),
+              ),
+            ),
+            Container(
+              height: 53,
+              margin: EdgeInsets.only(top: 14, left: 20, right: 20),
+              width: 373,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  side: BorderSide(
+                    color: Color(0xff1D2434),
+                    width: 1,
+                  ),
+                ),
+                onPressed: () {},
+                child: Text(
+                  "Batalkan Reservasi",
+                  style: TextStyle(
+                    color: Color(0xff1D2434),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
