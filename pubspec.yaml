@@ -80,6 +80,7 @@ flutter:
     - images/carbon_password.png
     - images/user.png
     - images/reservasi.png
+    - images/fe_plus.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
