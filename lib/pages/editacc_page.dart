@@ -16,12 +16,13 @@ class EditAcc extends StatefulWidget {
 }
 
 class _EditAccState extends State<EditAcc> {
-  GlobalKey<FormState> get _formKey => GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final idController = TextEditingController();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   String errorMessage = '';
+  String successMessage = '';
   var userData;
 
   @override
@@ -72,8 +73,44 @@ class _EditAccState extends State<EditAcc> {
                 ),
               ),
             ),
+            Form(
+              key: _formKey,
+              child: Container(
+                margin: EdgeInsets.only(top: 9, left: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffCDFFAF),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        successMessage,
+                        style: TextStyle(
+                          color: Color(0xff128817),
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red[100],
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        errorMessage,
+                        style: TextStyle(
+                          color: Colors.red[900],
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Container(
-              margin: EdgeInsets.only(top: 28, left: 20, right: 20),
+              margin: EdgeInsets.only(top: 18, left: 20, right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -93,7 +130,7 @@ class _EditAccState extends State<EditAcc> {
                     child: TextFormField(
                       controller: usernameController,
                       validator: (String? value) {
-                        if (value!.isEmpty) {
+                        if (value!.trim().isEmpty) {
                           return 'Masukkan username Anda';
                         }
                         return null;
@@ -151,10 +188,9 @@ class _EditAccState extends State<EditAcc> {
                     child: TextFormField(
                       controller: emailController,
                       validator: (String? value) {
-                        if (value!.isEmpty) {
+                        if (value!.trim().isEmpty) {
                           return 'Masukkan Email Anda';
                         }
-
                         return null;
                       },
                       onChanged: (text) => setState(() => errorMessage = ''),
@@ -210,7 +246,7 @@ class _EditAccState extends State<EditAcc> {
                     child: TextFormField(
                       controller: phoneController,
                       validator: (String? value) {
-                        if (value!.isEmpty) {
+                        if (value!.trim().isEmpty) {
                           return 'Masukkan Telepon Anda';
                         }
 
@@ -283,7 +319,7 @@ class _EditAccState extends State<EditAcc> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/home');
                 },
                 child: Text(
                   "Kembali",
@@ -302,11 +338,9 @@ class _EditAccState extends State<EditAcc> {
   Future<void> submit() async {
     final form = _formKey.currentState;
 
-    // if (!form!.validate()) {
-    //   return;
-    // }
-
-    // print(int.parse(idController.text));
+    if (!form!.validate()) {
+      return;
+    }
     final AuthProvider provider =
         Provider.of<AuthProvider>(context, listen: false);
     try {
@@ -316,8 +350,9 @@ class _EditAccState extends State<EditAcc> {
         emailController.text,
         phoneController.text,
       );
-      int toPage = 2;
-      Navigator.pushNamed(context, '/home', arguments: toPage);
+      setState(() {
+        successMessage = 'Akun telah diperbarui! Klik kembali';
+      });
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');

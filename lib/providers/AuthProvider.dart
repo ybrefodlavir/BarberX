@@ -79,8 +79,13 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> postDataAkun(
       int id, String username, String email, String phone) async {
-    this.token = await apiService.postDataAkun(id, username, email, phone);
-    setToken(this.token);
-    notifyListeners();
+    var data = await apiService.postDataAkun(id, username, email, phone);
+    if (data.contains('SQLSTATE[23000]')) {
+      throw Exception('Ada kesalahan pada input Anda');
+    } else {
+      this.token = data;
+      setToken(this.token);
+      notifyListeners();
+    }
   }
 }

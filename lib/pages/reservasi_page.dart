@@ -312,7 +312,9 @@ class _ReservasiState extends State<Reservasi> {
                       width: 1,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/home');
+                  },
                   child: Text(
                     "Kembali",
                     style: TextStyle(
