@@ -26,30 +26,28 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: widgetOptions.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Color(0xffA78849),
+        unselectedItemColor: Colors.white,
         backgroundColor: Color(0xff1D2434),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: ImageIcon(
               AssetImage("images/home.png"),
-              color: Colors.white,
             ),
             title: Text(
               "Home",
               style: TextStyle(
-                color: Colors.white,
                 fontSize: 12,
               ),
             ),
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
-              AssetImage("images/user.png"),
-              color: Colors.white,
+              AssetImage("images/user.png"),        
             ),
             title: Text(
               "Akun",
-              style: TextStyle(
-                color: Colors.white,
+              style: TextStyle(           
                 fontSize: 12,
               ),
             ),
