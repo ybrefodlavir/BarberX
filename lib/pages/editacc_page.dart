@@ -286,7 +286,7 @@ class _EditAccState extends State<EditAcc> {
             ),
             Container(
               height: 53,
-              margin: EdgeInsets.only(top: 150, left: 20, right: 20),
+              margin: EdgeInsets.only(top: 130, left: 20, right: 20),
               width: 373,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(

@@ -89,12 +89,14 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> postPassword(
-      int id, String password, String passwordConfirm) async {
-    var data = await apiService.postPassword(id, password, passwordConfirm);
+  Future<void> postPassword(int id, String oldPassword, String password,
+      String passwordConfirm) async {
+    var data = await apiService.postPassword(
+        id, oldPassword, password, passwordConfirm);
     print(id);
     if (data.contains('SQLSTATE[23000]')) {
-      throw Exception('Ada kesalahan pada input Anda');
+      throw Exception(
+          'Ada kesalahan pada input Anda, atau input Anda tidak valid.');
     } else {
       this.token = data;
       setToken(this.token);

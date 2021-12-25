@@ -19,6 +19,7 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final oldPasswordController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
   final idController = TextEditingController();
@@ -114,6 +115,66 @@ class _ChangePasswordState extends State<ChangePassword> {
                     Container(
                       margin: EdgeInsets.only(top: 3),
                       child: Text(
+                        'Password Lama',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 12),
+                      width: 374,
+                      child: TextFormField(
+                        keyboardType: TextInputType.name,
+                        controller: oldPasswordController,
+                        obscureText: true,
+                        autocorrect: false,
+                        validator: (String? value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Masukkan Password Lama';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) => setState(() => errorMessage = ''),
+                        decoration: InputDecoration(
+                          hintText: 'Masukkan Password Lama',
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Image.asset(
+                              'images/carbon_password.png',
+                              width: 17,
+                              height: 17,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          filled: true,
+                          fillColor: Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderSide:
+                                BorderSide(color: Color(0xffDAD7D2), width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(3)),
+                            borderSide:
+                                BorderSide(color: Color(0xffDAD7D2), width: 2),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 17, left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 3),
+                      child: Text(
                         'Password Baru',
                         style: TextStyle(
                           color: Colors.black,
@@ -127,6 +188,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                       child: TextFormField(
                         keyboardType: TextInputType.name,
                         controller: passwordController,
+                        obscureText: true,
+                        autocorrect: false,
                         validator: (String? value) {
                           if (value!.trim().isEmpty) {
                             return 'Masukkan Password Baru';
@@ -134,7 +197,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                           return null;
                         },
                         onChanged: (text) => setState(() => errorMessage = ''),
-                        autocorrect: true,
                         decoration: InputDecoration(
                           hintText: 'Masukkan Password Baru',
                           prefixIcon: Padding(
@@ -184,8 +246,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                       margin: EdgeInsets.only(top: 12),
                       width: 374,
                       child: TextFormField(
-                         keyboardType: TextInputType.name,
+                        keyboardType: TextInputType.name,
                         controller: passwordConfirmController,
+                        obscureText: true,
+                        autocorrect: false,
                         validator: (String? value) {
                           if (value!.trim().isEmpty) {
                             return 'Masukkan Password Konfirmasi';
@@ -193,7 +257,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                           return null;
                         },
                         onChanged: (text) => setState(() => errorMessage = ''),
-                        autocorrect: true,
                         decoration: InputDecoration(
                           hintText: 'Konfirmasi Password Baru',
                           prefixIcon: Padding(
@@ -226,7 +289,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
               Container(
                 height: 53,
-                margin: EdgeInsets.only(top: 220, left: 20, right: 20),
+                margin: EdgeInsets.only(top: 100, left: 20, right: 20),
                 width: 373,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -285,6 +348,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     try {
       await provider.postPassword(
         int.parse(idController.text),
+        oldPasswordController.text,
         passwordController.text,
         passwordConfirmController.text,
       );

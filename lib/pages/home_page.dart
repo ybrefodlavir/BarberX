@@ -43,11 +43,11 @@ class _HomeState extends State<Home> {
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
-              AssetImage("images/user.png"),        
+              AssetImage("images/user.png"),
             ),
             title: Text(
               "Akun",
-              style: TextStyle(           
+              style: TextStyle(
                 fontSize: 12,
               ),
             ),
@@ -93,7 +93,6 @@ class _HomeState extends State<Home> {
   Future<void> onItemTapped(int index) async {
     setState(() {
       selectedIndex = index;
-      print(selectedIndex);
     });
   }
 }
