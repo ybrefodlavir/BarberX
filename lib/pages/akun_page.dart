@@ -156,7 +156,8 @@ class _AkunState extends State<Akun> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/signin');
+                                    Navigator.pushNamed(
+                                        context, '/changepassword');
                                   },
                                   child: Text(
                                     "Edit Password",
