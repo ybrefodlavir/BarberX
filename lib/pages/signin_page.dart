@@ -19,6 +19,7 @@ class _SignInState extends State<SignIn> {
 
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
 
   String errorMessage = '';
 
@@ -211,15 +212,20 @@ class _SignInState extends State<SignIn> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: [0.0, 0.5, 1.0],
-                        colors: <Color>[
-                          Color(0xffD5B981),
-                          Color(0xffFFE1A6),
-                          Color(0xffD5B981)
-                        ],
-                      ),
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          stops: [0.0, 0.5, 1.0],
+                          colors: isLoading
+                              ? <Color>[
+                                  Color(0xffFFE1A6),
+                                  Color(0xffD5B981),
+                                  Color(0xffFFE1A6)
+                                ]
+                              : <Color>[
+                                  Color(0xffD5B981),
+                                  Color(0xffFFE1A6),
+                                  Color(0xffD5B981)
+                                ]),
                     ),
                     child: ElevatedButton(
                       style: ButtonStyle(
@@ -230,10 +236,10 @@ class _SignInState extends State<SignIn> {
                             MaterialStateProperty.all(Colors.transparent),
                       ),
                       onPressed: () {
-                        submit();
+                        isLoading ? null : submit();
                       },
                       child: Text(
-                        "Sign In",
+                        isLoading ? "Sign In..." : "Sign In",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -278,20 +284,29 @@ class _SignInState extends State<SignIn> {
   }
 
   Future<void> submit() async {
+    setState(() {
+      errorMessage = '';
+    });
     final form = _formKey.currentState;
 
     if (!form!.validate()) {
       return;
     }
-
+    setState(() {
+      isLoading = true;
+    });
     final AuthProvider provider =
         Provider.of<AuthProvider>(context, listen: false);
     try {
       await provider.login(loginController.text, passwordController.text);
+      setState(() {
+        isLoading = false;
+      });
       Navigator.pop(context);
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');
+        isLoading = false;
       });
     }
   }

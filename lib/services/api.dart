@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:barber/models/reservation.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -9,7 +10,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://172.22.176.1:8000/api/';
+  final String baseUrl = 'http://192.168.100.12:8000/api/';
 
   Future<String> register(String name, String email, String phone,
       String password, String passwordConfirm) async {
@@ -125,6 +126,41 @@ class ApiService {
     }
 
     // return token
+    return response.body;
+  }
+
+  // Future<List<Reservation>> fetchReservation() async {
+  //   http.Response response = await http.get(
+  //     Uri.parse(baseUrl + 'reservations'),
+  //     headers: {
+  //       HttpHeaders.acceptHeader: 'application/json',
+  //       HttpHeaders.authorizationHeader: 'Bearer $token'
+  //     },
+  //   );
+  //   List transactions = jsonDecode(response.body);
+  //   return transactions
+  //       .map((transaction) => Reservation.fromJson(transaction))
+  //       .toList();
+  // }
+
+  Future<String> addReservation(
+      int user_id, Map<int, int> services, String reservation_time) async {
+    String uri = baseUrl + 'reservasi/add/reservations';
+    var data = [];
+    services.forEach((k, v) => data.add((k)));
+    http.Response response = await http.post(Uri.parse(uri),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+        body: jsonEncode({
+          'user_id': user_id,
+          'services': data,
+          'reservation_time': reservation_time,
+        }));
+    if (response.statusCode == 422) {
+      throw Exception('Error happened on create');
+    }
     return response.body;
   }
 }

@@ -93,7 +93,6 @@ class AuthProvider extends ChangeNotifier {
       String passwordConfirm) async {
     var data = await apiService.postPassword(
         id, oldPassword, password, passwordConfirm);
-    print(id);
     if (data.contains('SQLSTATE[23000]')) {
       throw Exception(
           'Ada kesalahan pada input Anda, atau input Anda tidak valid.');

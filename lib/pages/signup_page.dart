@@ -16,6 +16,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -399,15 +400,20 @@ class _SignUpState extends State<SignUp> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: [0.0, 0.5, 1.0],
-                        colors: <Color>[
-                          Color(0xffD5B981),
-                          Color(0xffFFE1A6),
-                          Color(0xffD5B981)
-                        ],
-                      ),
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          stops: [0.0, 0.5, 1.0],
+                          colors: isLoading
+                              ? <Color>[
+                                  Color(0xffFFE1A6),
+                                  Color(0xffD5B981),
+                                  Color(0xffFFE1A6)
+                                ]
+                              : <Color>[
+                                  Color(0xffD5B981),
+                                  Color(0xffFFE1A6),
+                                  Color(0xffD5B981)
+                                ]),
                     ),
                     child: ElevatedButton(
                       style: ButtonStyle(
@@ -418,10 +424,10 @@ class _SignUpState extends State<SignUp> {
                             MaterialStateProperty.all(Colors.transparent),
                       ),
                       onPressed: () {
-                        submit();
+                        isLoading ? null : submit();
                       },
                       child: Text(
-                        "Sign Up",
+                        isLoading ? "Sign up..." : "Sign up",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -466,12 +472,17 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<void> submit() async {
+    setState(() {
+      errorMessage = '';
+    });
     final form = _formKey.currentState;
 
     if (!form!.validate()) {
       return;
     }
-
+    setState(() {
+      isLoading = true;
+    });
     final AuthProvider provider =
         Provider.of<AuthProvider>(context, listen: false);
     try {
@@ -481,11 +492,16 @@ class _SignUpState extends State<SignUp> {
           phoneController.text,
           passwordController.text,
           passwordConfirmController.text);
-
+      setState(() {
+        isLoading = false;
+      });
       Navigator.pop(context);
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');
+        setState(() {
+          isLoading = false;
+        });
       });
     }
   }

@@ -25,6 +25,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   final idController = TextEditingController();
   String errorMessage = '';
   String successMessage = '';
+  bool isLoading = false;
   var userData;
 
   @override
@@ -293,16 +294,19 @@ class _ChangePasswordState extends State<ChangePassword> {
                 width: 373,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff1D2434),
+                    primary: isLoading ? Color(0xffD5B981) : Color(0xff1D2434),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
                   onPressed: () {
-                    submit();
+                    isLoading ? null : submit();
                   },
                   child: Text(
-                    "Simpan",
+                    isLoading ? "Sedang Simpan ...." : "Simpan",
+                    style: TextStyle(
+                      color: isLoading ? Color(0xff1D2434) : Color(0xffD5B981),
+                    ),
                   ),
                 ),
               ),
@@ -338,11 +342,18 @@ class _ChangePasswordState extends State<ChangePassword> {
   }
 
   Future<void> submit() async {
+    setState(() {
+      errorMessage = '';
+      successMessage = '';
+    });
     final form = _formKey.currentState;
 
     if (!form!.validate()) {
       return;
     }
+    setState(() {
+      isLoading = true;
+    });
     final AuthProvider provider =
         Provider.of<AuthProvider>(context, listen: false);
     try {
@@ -354,10 +365,12 @@ class _ChangePasswordState extends State<ChangePassword> {
       );
       setState(() {
         successMessage = 'Password telah diperbarui! Klik kembali';
+        isLoading = false;
       });
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');
+        isLoading = false;
       });
     }
   }

@@ -23,6 +23,7 @@ class _EditAccState extends State<EditAcc> {
   final phoneController = TextEditingController();
   String errorMessage = '';
   String successMessage = '';
+  bool isLoading = false;
   var userData;
 
   @override
@@ -290,16 +291,19 @@ class _EditAccState extends State<EditAcc> {
               width: 373,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xff1D2434),
+                  primary: isLoading ? Color(0xffD5B981) : Color(0xff1D2434),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
                 onPressed: () {
-                  submit();
+                  isLoading ? null : submit();
                 },
                 child: Text(
-                  "Simpan",
+                  isLoading ? "Sedang Simpan ...." : "Simpan",
+                  style: TextStyle(
+                    color: isLoading ? Color(0xff1D2434) : Color(0xffD5B981),
+                  ),
                 ),
               ),
             ),
@@ -336,11 +340,18 @@ class _EditAccState extends State<EditAcc> {
   }
 
   Future<void> submit() async {
+    setState(() {
+      errorMessage = '';
+      successMessage = '';
+    });
     final form = _formKey.currentState;
 
     if (!form!.validate()) {
       return;
     }
+    setState(() {
+      isLoading = true;
+    });
     final AuthProvider provider =
         Provider.of<AuthProvider>(context, listen: false);
     try {
@@ -352,10 +363,12 @@ class _EditAccState extends State<EditAcc> {
       );
       setState(() {
         successMessage = 'Akun telah diperbarui! Klik kembali';
+        isLoading = false;
       });
     } catch (Exception) {
       setState(() {
         errorMessage = Exception.toString().replaceAll('Exception: ', '');
+        isLoading = false;
       });
     }
   }

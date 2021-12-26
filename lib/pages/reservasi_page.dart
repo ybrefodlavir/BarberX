@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:barber/models/services.dart';
+import 'package:barber/providers/ReservationProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
@@ -21,16 +23,28 @@ class _ReservasiState extends State<Reservasi> {
   }
 
   final reservasiDateController = TextEditingController();
-
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final idController = TextEditingController();
+  String errorMessage = '';
+  String successMessage = '';
+  var userData;
+  bool isLoading = false;
   List<Service> services = [];
   late Map<Service, bool> even = {};
   late Map<Service, bool> odd = {};
-  Map<int, int> holder_1 = {};
+  Map<int, int> servicesList = {};
   late int totalPrice = 0;
+
   Future<void> getData() async {
     final prefs = await SharedPreferences.getInstance();
     var servicesJason = prefs.getString('sevices');
     var realServices = jsonDecode(servicesJason!);
+    var userJson = prefs.getString('token');
+    var user = json.decode(userJson!);
+    setState(() {
+      userData = user;
+    });
+    idController.text = userData['user_id'].toString();
     for (var i = 0; i < realServices.length; i++) {
       var firstrealServices = realServices[i];
       Service serviceObj = Service(
@@ -60,19 +74,27 @@ class _ReservasiState extends State<Reservasi> {
     even.forEach((key, value) {
       if (value == true) {
         setState(() {
-          holder_1[key.serviceId] = key.price;
+          servicesList[key.serviceId] = key.price;
         });
+      } else if (value == false) {
+        if (servicesList.containsKey(key.serviceId)) {
+          servicesList.removeWhere((key1, value1) => key1 == key.serviceId);
+        }
       }
     });
     odd.forEach((key, value) {
       if (value == true) {
         setState(() {
-          holder_1[key.serviceId] = key.price;
+          servicesList[key.serviceId] = key.price;
         });
+      } else if (value == false) {
+        if (servicesList.containsKey(key.serviceId)) {
+          servicesList.removeWhere((key1, value1) => key1 == key.serviceId);
+        }
       }
     });
-    if (holder_1.isNotEmpty) {
-      var values = holder_1.values;
+    if (servicesList.isNotEmpty) {
+      var values = servicesList.values;
       setState(() {
         totalPrice = values.reduce((sum, element) => sum + element);
       });
@@ -81,9 +103,6 @@ class _ReservasiState extends State<Reservasi> {
         totalPrice = 0;
       });
     }
-    print(totalPrice);
-    print(holder_1);
-    holder_1.clear();
   }
 
   @override
@@ -115,9 +134,45 @@ class _ReservasiState extends State<Reservasi> {
                   ),
                 ),
               ),
+              Form(
+                key: _formKey,
+                child: Container(
+                  margin: EdgeInsets.only(top: 9, left: 20),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color(0xffCDFFAF),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          successMessage,
+                          style: TextStyle(
+                            color: Color(0xff128817),
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red[100],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          errorMessage,
+                          style: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Container(
                 margin: EdgeInsets.only(
-                  top: 28,
+                  top: 10,
                   left: 20,
                 ),
                 child: Text(
@@ -129,7 +184,7 @@ class _ReservasiState extends State<Reservasi> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  top: 20,
+                  top: 10,
                 ),
                 child: Row(
                   children: [
@@ -220,7 +275,7 @@ class _ReservasiState extends State<Reservasi> {
                                 color: Colors.transparent,
                               ),
                             ),
-                            hintText: "hh/bb/tttt",
+                            hintText: "TTTT-BB-HH JJ:MM:tt",
                             hintStyle: TextStyle(
                               color: Color(0xff616670),
                             ),
@@ -281,14 +336,19 @@ class _ReservasiState extends State<Reservasi> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff1D2434),
+                    primary: isLoading ? Color(0xffD5B981) : Color(0xff1D2434),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    isLoading ? null : submit();
+                  },
                   child: Text(
-                    "Buat Reservasi",
+                    isLoading ? "Sedang Membuat ...." : "Buat Reservasi",
+                    style: TextStyle(
+                      color: isLoading ? Color(0xff1D2434) : Color(0xffD5B981),
+                    ),
                   ),
                 ),
               ),
@@ -334,11 +394,99 @@ class _ReservasiState extends State<Reservasi> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(DateTime.now().year - 5),
-        lastDate: DateTime(DateTime.now().year + 5));
+        firstDate: DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day),
+        lastDate: DateTime(DateTime.now().year + 1));
     if (picked != null)
       setState(() {
-        reservasiDateController.text = DateFormat('MM/dd/yyyy').format(picked);
+        reservasiDateController.text = DateFormat('yyyy-MM-dd').format(picked);
       });
+    if (reservasiDateController.text.isNotEmpty) {
+      selectTime(context);
+    }
+  }
+
+  Future selectTime(BuildContext context) async {
+    TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
+    String _hour, _minute, _time;
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (picked != null) {
+      selectedTime = picked;
+      _hour = selectedTime.hour.toString();
+      _minute = selectedTime.minute.toString();
+      if (selectedTime.hour < 10) {
+        _hour = '0' + _hour;
+      }
+      if (selectedTime.minute < 10) {
+        _minute = '0' + _minute;
+      }
+      _time = _hour + ':' + _minute + ":00";
+      setState(() {
+        reservasiDateController.text += " " + _time;
+      });
+    } else {
+      setState(() {
+        reservasiDateController.text = "";
+        errorMessage = 'Pilih Jam';
+      });
+    }
+  }
+
+  Future<void> submit() async {
+    setState(() {
+      errorMessage = '';
+      successMessage = '';
+    });
+    final form = _formKey.currentState;
+
+    if (!form!.validate()) {
+      return;
+    }
+    if (!servicesList.isNotEmpty) {
+      setState(() {
+        errorMessage = "Pilih Layanan";
+      });
+      return;
+    } else if (reservasiDateController.text.isEmpty) {
+      setState(() {
+        errorMessage = "Pilih Hari";
+      });
+      return;
+    }
+    setState(() {
+      isLoading = true;
+    });
+    final ReservationProvider provider =
+        Provider.of<ReservationProvider>(context, listen: false);
+    try {
+      bool valid = await provider.addReservation(
+        int.parse(idController.text),
+        servicesList,
+        reservasiDateController.text,
+      );
+      if (valid == true) {
+        setState(() {
+          successMessage = 'Sudah membuat reservasi pada hari ' +
+              reservasiDateController.text +
+              '.\nKita sudah kirim email ke email Anda';
+          errorMessage = '';
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          successMessage = '';
+          errorMessage = 'Ada Error';
+          isLoading = false;
+        });
+      }
+    } catch (Exception) {
+      setState(() {
+        errorMessage = Exception.toString().replaceAll('Exception: ', '');
+        isLoading = false;
+      });
+    }
   }
 }
