@@ -10,7 +10,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://192.168.100.12:8000/api/';
+  final String baseUrl = 'http://172.25.224.1:8000/api/';
 
   Future<String> register(String name, String email, String phone,
       String password, String passwordConfirm) async {
@@ -129,19 +129,19 @@ class ApiService {
     return response.body;
   }
 
-  // Future<List<Reservation>> fetchReservation() async {
-  //   http.Response response = await http.get(
-  //     Uri.parse(baseUrl + 'reservations'),
-  //     headers: {
-  //       HttpHeaders.acceptHeader: 'application/json',
-  //       HttpHeaders.authorizationHeader: 'Bearer $token'
-  //     },
-  //   );
-  //   List transactions = jsonDecode(response.body);
-  //   return transactions
-  //       .map((transaction) => Reservation.fromJson(transaction))
-  //       .toList();
-  // }
+  Future<List<Reservation>> fetchReservation(int id) async {
+    http.Response response = await http.get(
+      Uri.parse(baseUrl + 'reservations/' + id.toString()),
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
+    List reservations = jsonDecode(response.body);
+    return reservations
+        .map((reservation) => Reservation.fromJson(reservation))
+        .toList();
+  }
 
   Future<String> addReservation(
       int user_id, Map<int, int> services, String reservation_time) async {

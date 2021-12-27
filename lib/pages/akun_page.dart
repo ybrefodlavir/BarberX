@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:barber/models/reservation.dart';
 import 'package:barber/providers/AuthProvider.dart';
+import 'package:barber/providers/ReservationProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +18,7 @@ class Akun extends StatefulWidget {
 
 class _AkunState extends State<Akun> {
   var userData;
-
+  bool noReservations = false;
   @override
   void initState() {
     _getUserInfo();
@@ -33,6 +36,18 @@ class _AkunState extends State<Akun> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ReservationProvider>(context);
+    List<Reservation> reservations = provider.reservations;
+    provider.init();
+    if (reservations.isEmpty) {
+      setState(() {
+        noReservations = false;
+      });
+    } else {
+      setState(() {
+        noReservations = true;
+      });
+    }
     return Scaffold(
         backgroundColor: Color(0xffffffff),
         body: SingleChildScrollView(
@@ -293,199 +308,158 @@ class _AkunState extends State<Akun> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xffF7F7F7),
-                  ),
-                  margin: EdgeInsets.only(top: 21),
-                  height: 150,
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Reservasi Code:efnuwefbwf",
-                        style: TextStyle(
-                          color: Color(0xff35415D),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 18),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Tanggal Reservasi",
-                              style: TextStyle(
-                                color: Color(0xff898787),
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              "11 Oktober 2021",
-                              style: TextStyle(
-                                color: Color(0xff000000),
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
+                noReservations
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Flexible(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: reservations.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    padding: EdgeInsets.all(20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0xffF7F7F7),
+                                    ),
+                                    margin: EdgeInsets.only(top: 21),
+                                    height: 150,
+                                    width: double.infinity,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Reservasi Code : " +
+                                              reservations[index]
+                                                  .reservation_code,
+                                          style: TextStyle(
+                                            color: Color(0xff35415D),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 18),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Tanggal Reservasi",
+                                                style: TextStyle(
+                                                  color: Color(0xff898787),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              Text(
+                                                formatDate(reservations[index]
+                                                    .reservation_time),
+                                                style: TextStyle(
+                                                  color: Color(0xff000000),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 12),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Total Harga",
+                                                style: TextStyle(
+                                                  color: Color(0xff898787),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Rp. " +
+                                                    reservations[index]
+                                                        .price
+                                                        .toString() +
+                                                    " ,-",
+                                                style: TextStyle(
+                                                  color: Color(0xff000000),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 12),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Status",
+                                                style: TextStyle(
+                                                  color: Color(0xff898787),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    24, 5, 24, 5),
+                                                decoration: BoxDecoration(
+                                                  color: reservations[index]
+                                                              .status ==
+                                                          0
+                                                      ? Color(0xffFFDAAF)
+                                                      : Color(0xffCDFFAF),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
+                                                child: Text(
+                                                  reservations[index].status ==
+                                                          0
+                                                      ? "Menunggu Customer"
+                                                      : "Selesai",
+                                                  style: TextStyle(
+                                                    color: reservations[index]
+                                                                .status ==
+                                                            0
+                                                        ? Color(0xffCE8938)
+                                                        : Color(0xff128817),
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ],
+                      )
+                    : Container(
                         margin: EdgeInsets.only(top: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Total Harga",
-                              style: TextStyle(
-                                color: Color(0xff898787),
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              "Rp. 90.000,-",
-                              style: TextStyle(
-                                color: Color(0xff000000),
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
+                        child: const Center(
+                          child: Text(
+                              "Sepertinya Anda belum punya reservasi di BarberX, tunggu apa lagi. Anda bisa menjadi lebih bergaya jika Anda membuat reservasi."),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Status",
-                              style: TextStyle(
-                                color: Color(0xff898787),
-                                fontSize: 12,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(24, 5, 24, 5),
-                              decoration: BoxDecoration(
-                                color: Color(0xffFFDAAF),
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Text(
-                                "Menunggu Customer",
-                                style: TextStyle(
-                                  color: Color(0xffCE8938),
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0xffF7F7F7),
-                  ),
-                  margin: EdgeInsets.only(top: 21, bottom: 44),
-                  height: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Reservasi Code:efnuwefbwf",
-                        style: TextStyle(
-                          color: Color(0xff35415D),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 18),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Tanggal Reservasi",
-                              style: TextStyle(
-                                color: Color(0xff898787),
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              "11 Oktober 2021",
-                              style: TextStyle(
-                                color: Color(0xff000000),
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Total Harga",
-                              style: TextStyle(
-                                color: Color(0xff898787),
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              "Rp. 90.000,-",
-                              style: TextStyle(
-                                color: Color(0xff000000),
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Status",
-                              style: TextStyle(
-                                color: Color(0xff898787),
-                                fontSize: 12,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(24, 5, 24, 5),
-                              decoration: BoxDecoration(
-                                color: Color(0xffCDFFAF),
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Text(
-                                "Selesai",
-                                style: TextStyle(
-                                  color: Color(0xff128817),
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                      )
               ],
             ),
           ),
         ));
+  }
+
+  String formatDate(date) {
+    DateTime reservationDate = DateTime.parse(date);
+    String formattedDate =
+        DateFormat('dd MMMM yyyy – kk:mm').format(reservationDate);
+    return formattedDate;
   }
 
   Future<void> logout() async {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:barber/models/services.dart';
+import 'package:barber/providers/ReservationProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:barber/services/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +20,6 @@ class AuthProvider extends ChangeNotifier {
       this.isAuthenticated = true;
     }
     this.apiService = new ApiService(this.token);
-
     notifyListeners();
   }
 

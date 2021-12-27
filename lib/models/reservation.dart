@@ -4,6 +4,8 @@ class Reservation {
   int user_id;
   int service_id;
   String reservation_time;
+  int status = 0;
+  int price;
   String createdAt;
   String updateAt;
 
@@ -13,6 +15,8 @@ class Reservation {
       required this.user_id,
       required this.service_id,
       required this.reservation_time,
+      required this.status,
+      required this.price,
       required this.createdAt,
       required this.updateAt});
 
@@ -23,6 +27,8 @@ class Reservation {
       user_id: json['user_id'],
       service_id: json['service_id'],
       reservation_time: json['reservation_time'],
+      status: json['status'],
+      price: json['price'],
       createdAt: json['created_at'],
       updateAt: json['updated_at'],
     );
