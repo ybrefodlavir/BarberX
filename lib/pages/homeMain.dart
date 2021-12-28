@@ -368,27 +368,6 @@ class _HomeMainState extends State<HomeMain> {
                 ],
               ),
             ),
-
-            // Nyobaaaaaa aja
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      logout();
-                    },
-                    child: Text(
-                      "Log out",
-                      style: TextStyle(
-                        color: Color(0xffD5B981),
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

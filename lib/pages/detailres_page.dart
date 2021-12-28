@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 import 'dart:ui';
 import 'package:barber/models/reservationDetails.dart';
 import 'package:barber/providers/ReservationProvider.dart';
@@ -19,6 +18,15 @@ class DetailReservation extends StatefulWidget {
 }
 
 class _DetailReservationState extends State<DetailReservation> {
+  bool loading = false;
+  String errorMessage = '';
+  String successMessage = '';
+  String textButton = '';
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ReservationProvider>(context);
@@ -27,11 +35,13 @@ class _DetailReservationState extends State<DetailReservation> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.only(left: 21, top: 69, right: 203),
+              margin: EdgeInsets.only(left: 21, top: 69),
               child: Text(
                 'Detail Reservasi',
+                textAlign: TextAlign.left,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
@@ -215,23 +225,55 @@ class _DetailReservationState extends State<DetailReservation> {
               width: 373,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
+                  primary: loading ? Color(0xffD5B981) : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
                   side: BorderSide(
-                    color: Color(0xff1D2434),
+                    color: loading ? Color(0xffD5B981) : Color(0xff1D2434),
                     width: 1,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  loading
+                      ? null
+                      : submit(reservationDetails[0].reservation_code);
+                },
                 child: Text(
-                  reservationDetails[0].status == 0
-                      ? "Batalkan Reservasi"
-                      : "Hapus",
+                  textButton == ''
+                      ? formatStatus(reservationDetails[0].status)
+                      : textButton,
                   style: TextStyle(
-                    color: Color(0xff1D2434),
+                    color: loading ? Color(0xff1D2434) : Color(0xff1D2434),
                   ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 20),
+              decoration: BoxDecoration(
+                color: Color(0xffCDFFAF),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(
+                successMessage,
+                style: TextStyle(
+                  color: Color(0xff128817),
+                  fontSize: 12,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 20),
+              decoration: BoxDecoration(
+                color: Colors.red[100],
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(
+                errorMessage,
+                style: TextStyle(
+                  color: Colors.red[900],
+                  fontSize: 12,
                 ),
               ),
             ),
@@ -246,5 +288,52 @@ class _DetailReservationState extends State<DetailReservation> {
     String formattedDate =
         DateFormat('dd MMMM yyyy – kk:mm').format(reservationDate);
     return formattedDate;
+  }
+
+  Future<void> submit(code) async {
+    setState(() {
+      successMessage = 'Proses sedang berlangsung...';
+      errorMessage = '';
+    });
+
+    setState(() {
+      loading = true;
+    });
+    final ReservationProvider provider =
+        Provider.of<ReservationProvider>(context, listen: false);
+    try {
+      bool validation = await provider.deleteReservation(code);
+      if (validation == true) {
+        setState(() {
+          textButton = 'Selesai';
+          successMessage = 'Proses selesai, tekan tombol kembali';
+          errorMessage = '';
+          loading = true;
+        });
+      } else {
+        setState(() {
+          successMessage = '';
+          errorMessage = 'Proses gagal dilaksanakan';
+          loading = false;
+        });
+      }
+    } catch (Exception) {
+      setState(() {
+        errorMessage = Exception.toString().replaceAll('Exception: ', '');
+        loading = false;
+      });
+    }
+  }
+
+  String formatStatus(status) {
+    String statusString = '';
+    if (loading == true) {
+      statusString = 'Proses sedang berjalan...';
+    } else {
+      status == 1
+          ? statusString = 'Hapus'
+          : statusString = 'Batalkan Reservasi';
+    }
+    return statusString;
   }
 }

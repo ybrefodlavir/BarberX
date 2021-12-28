@@ -54,4 +54,14 @@ class ReservationProvider extends ChangeNotifier {
     }
     return true;
   }
+
+  Future<bool> deleteReservation(code) async {
+    try {
+      bool deleteRes = await apiService.deleteReservationApi(code);
+      notifyListeners();
+      return deleteRes;
+    } catch (Exception) {
+      throw Exception;
+    }
+  }
 }

@@ -11,7 +11,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://172.25.224.1:8000/api/';
+  final String baseUrl = 'http://192.168.2.107:80/api/';
 
   Future<String> register(String name, String email, String phone,
       String password, String passwordConfirm) async {
@@ -178,5 +178,25 @@ class ApiService {
       throw Exception('Error happened on create');
     }
     return response.body;
+  }
+
+  Future<bool> deleteReservationApi(String code) async {
+    String uri = baseUrl + 'reservasi/delete/reservation/' + code;
+    http.Response response = await http.delete(Uri.parse(uri),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.acceptHeader: 'application/json',
+        },
+        body: jsonEncode({
+          'reservation_code': code,
+        }));
+    if (response.statusCode == 422 || response.statusCode == 500) {
+      return false;
+    }
+    if (response.body == 'true') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
