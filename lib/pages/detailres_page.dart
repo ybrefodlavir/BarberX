@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'dart:html';
 import 'dart:ui';
+import 'package:barber/models/reservationDetails.dart';
+import 'package:barber/providers/ReservationProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class DetailReservation extends StatefulWidget {
   const DetailReservation({Key? key}) : super(key: key);
@@ -16,6 +21,8 @@ class DetailReservation extends StatefulWidget {
 class _DetailReservationState extends State<DetailReservation> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ReservationProvider>(context);
+    List<ReservationDetails> reservationDetails = provider.reservationDetails;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -35,7 +42,7 @@ class _DetailReservationState extends State<DetailReservation> {
             Container(
               margin: EdgeInsets.only(left: 21, top: 19, right: 128),
               child: Text(
-                'Reservasi Code : #RBX-YbzIMopZ',
+                'Reservasi Code : ' + reservationDetails[0].reservation_code,
                 style: TextStyle(
                   color: Color(0xffA78849),
                   fontSize: 16,
@@ -56,7 +63,7 @@ class _DetailReservationState extends State<DetailReservation> {
                     ),
                   ),
                   Text(
-                    "11 Oktober 2021",
+                    formatDate(reservationDetails[0].reservation_time),
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 14,
@@ -78,7 +85,9 @@ class _DetailReservationState extends State<DetailReservation> {
                     ),
                   ),
                   Text(
-                    "Rp. 90.000,-",
+                    "Rp. " +
+                        reservationDetails[0].totalPrice.toString() +
+                        " ,-",
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 14,
@@ -102,13 +111,19 @@ class _DetailReservationState extends State<DetailReservation> {
                   Container(
                     padding: EdgeInsets.fromLTRB(24, 5, 24, 5),
                     decoration: BoxDecoration(
-                      color: Color(0xffFFDAAF),
+                      color: reservationDetails[0].status == 0
+                          ? Color(0xffFFDAAF)
+                          : Color(0xffCDFFAF),
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Text(
-                      "Menunggu Customer",
+                      reservationDetails[0].status == 0
+                          ? "Menunggu Customer"
+                          : "Selesai",
                       style: TextStyle(
-                        color: Color(0xffCE8938),
+                        color: reservationDetails[0].status == 0
+                            ? Color(0xffCE8938)
+                            : Color(0xff128817),
                         fontSize: 12,
                       ),
                     ),
@@ -134,53 +149,50 @@ class _DetailReservationState extends State<DetailReservation> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 19, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Haircut",
-                    style: TextStyle(
-                      color: Color(0xff898787),
-                      fontSize: 14,
-                    ),
-                  ),
-                  Text(
-                    "Rp. 60.000,-",
-                    style: TextStyle(
-                      color: Color(0xff000000),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 19, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Shampoo",
-                    style: TextStyle(
-                      color: Color(0xff898787),
-                      fontSize: 14,
-                    ),
-                  ),
-                  Text(
-                    "Rp. 30.000,-",
-                    style: TextStyle(
-                      color: Color(0xff000000),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Flexible(
+                  child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: reservationDetails.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(left: 20, top: 19, right: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                reservationDetails[index].service,
+                                style: TextStyle(
+                                  color: Color(0xff898787),
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                "Rp. " +
+                                    reservationDetails[index]
+                                        .servicePrice
+                                        .toString() +
+                                    " ,-",
+                                style: TextStyle(
+                                  color: Color(0xff000000),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+              ],
             ),
             Container(
               height: 53,
-              margin: EdgeInsets.only(top: 207, left: 20, right: 20),
+              margin: EdgeInsets.only(top: 150, left: 20, right: 20),
               width: 373,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -189,7 +201,9 @@ class _DetailReservationState extends State<DetailReservation> {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: Text(
                   "Kembali",
                 ),
@@ -212,7 +226,9 @@ class _DetailReservationState extends State<DetailReservation> {
                 ),
                 onPressed: () {},
                 child: Text(
-                  "Batalkan Reservasi",
+                  reservationDetails[0].status == 0
+                      ? "Batalkan Reservasi"
+                      : "Hapus",
                   style: TextStyle(
                     color: Color(0xff1D2434),
                   ),
@@ -223,5 +239,12 @@ class _DetailReservationState extends State<DetailReservation> {
         ),
       ),
     );
+  }
+
+  String formatDate(date) {
+    DateTime reservationDate = DateTime.parse(date);
+    String formattedDate =
+        DateFormat('dd MMMM yyyy – kk:mm').format(reservationDate);
+    return formattedDate;
   }
 }

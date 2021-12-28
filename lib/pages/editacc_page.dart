@@ -323,7 +323,7 @@ class _EditAccState extends State<EditAcc> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pop(context);
                 },
                 child: Text(
                   "Kembali",

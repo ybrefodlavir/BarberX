@@ -326,7 +326,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
+                    Navigator.pop(context);
                   },
                   child: Text(
                     "Kembali",

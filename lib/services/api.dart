@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:barber/models/reservation.dart';
+import 'package:barber/models/reservationDetails.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -10,7 +11,7 @@ class ApiService {
     this.token = token;
   }
 
-  final String baseUrl = 'http://192.168.2.107:80/api/';
+  final String baseUrl = 'http://172.25.224.1:8000/api/';
 
   Future<String> register(String name, String email, String phone,
       String password, String passwordConfirm) async {
@@ -140,6 +141,21 @@ class ApiService {
     List reservations = jsonDecode(response.body);
     return reservations
         .map((reservation) => Reservation.fromJson(reservation))
+        .toList();
+  }
+
+  Future<List<ReservationDetails>> fetchReservationDetails(String id) async {
+    http.Response response = await http.get(
+      Uri.parse(baseUrl + 'reservations/details/' + id.toString()),
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
+    List reservationDetails = jsonDecode(response.body);
+    return reservationDetails
+        .map((reservationDetail) =>
+            ReservationDetails.fromJson(reservationDetail))
         .toList();
   }
 

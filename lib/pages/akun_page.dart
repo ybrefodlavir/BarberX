@@ -18,6 +18,10 @@ class Akun extends StatefulWidget {
 
 class _AkunState extends State<Akun> {
   var userData;
+  String errorMessage = '';
+  String successMessage = '';
+  bool loading = false;
+
   bool noReservations = false;
   @override
   void initState() {
@@ -298,7 +302,33 @@ class _AkunState extends State<Akun> {
                   height: 2,
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 28),
+                  decoration: BoxDecoration(
+                    color: Color(0xffCDFFAF),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Text(
+                    successMessage,
+                    style: TextStyle(
+                      color: Color(0xff128817),
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red[100],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Text(
+                    errorMessage,
+                    style: TextStyle(
+                      color: Colors.red[900],
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 2),
                   child: Text(
                     "Riwayat Transaksi",
                     style: TextStyle(
@@ -309,142 +339,163 @@ class _AkunState extends State<Akun> {
                   ),
                 ),
                 noReservations
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Flexible(
-                            child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemCount: reservations.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    padding: EdgeInsets.all(20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Color(0xffF7F7F7),
-                                    ),
-                                    margin: EdgeInsets.only(top: 21),
-                                    height: 150,
-                                    width: double.infinity,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Reservasi Code : " +
-                                              reservations[index]
-                                                  .reservation_code,
-                                          style: TextStyle(
-                                            color: Color(0xff35415D),
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                    ? Container(
+                        padding: EdgeInsets.only(bottom: 20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Flexible(
+                              child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: reservations.length,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        loading
+                                            ? null
+                                            : getDetails(reservations[index]
+                                                .reservation_code);
+                                      },
+                                      hoverColor: Colors.white,
+                                      child: Container(
+                                        padding: EdgeInsets.all(20),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Color(0xffF7F7F7),
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 18),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Tanggal Reservasi",
-                                                style: TextStyle(
-                                                  color: Color(0xff898787),
-                                                  fontSize: 12,
-                                                ),
+                                        margin: EdgeInsets.only(top: 21),
+                                        height: 150,
+                                        width: double.infinity,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Reservasi Code : " +
+                                                  reservations[index]
+                                                      .reservation_code,
+                                              style: TextStyle(
+                                                color: Color(0xff35415D),
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              Text(
-                                                formatDate(reservations[index]
-                                                    .reservation_time),
-                                                style: TextStyle(
-                                                  color: Color(0xff000000),
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 12),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Total Harga",
-                                                style: TextStyle(
-                                                  color: Color(0xff898787),
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              Text(
-                                                "Rp. " +
-                                                    reservations[index]
-                                                        .price
-                                                        .toString() +
-                                                    " ,-",
-                                                style: TextStyle(
-                                                  color: Color(0xff000000),
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 12),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Status",
-                                                style: TextStyle(
-                                                  color: Color(0xff898787),
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    24, 5, 24, 5),
-                                                decoration: BoxDecoration(
-                                                  color: reservations[index]
-                                                              .status ==
-                                                          0
-                                                      ? Color(0xffFFDAAF)
-                                                      : Color(0xffCDFFAF),
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                ),
-                                                child: Text(
-                                                  reservations[index].status ==
-                                                          0
-                                                      ? "Menunggu Customer"
-                                                      : "Selesai",
-                                                  style: TextStyle(
-                                                    color: reservations[index]
-                                                                .status ==
-                                                            0
-                                                        ? Color(0xffCE8938)
-                                                        : Color(0xff128817),
-                                                    fontSize: 12,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 18),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Tanggal Reservasi",
+                                                    style: TextStyle(
+                                                      color: Color(0xff898787),
+                                                      fontSize: 12,
+                                                    ),
                                                   ),
-                                                ),
+                                                  Text(
+                                                    formatDate(
+                                                        reservations[index]
+                                                            .reservation_time),
+                                                    style: TextStyle(
+                                                      color: Color(0xff000000),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 12),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Total Harga",
+                                                    style: TextStyle(
+                                                      color: Color(0xff898787),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "Rp. " +
+                                                        reservations[index]
+                                                            .price
+                                                            .toString() +
+                                                        " ,-",
+                                                    style: TextStyle(
+                                                      color: Color(0xff000000),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 12),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Status",
+                                                    style: TextStyle(
+                                                      color: Color(0xff898787),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            24, 5, 24, 5),
+                                                    decoration: BoxDecoration(
+                                                      color: reservations[index]
+                                                                  .status ==
+                                                              0
+                                                          ? Color(0xffFFDAAF)
+                                                          : Color(0xffCDFFAF),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                    ),
+                                                    child: Text(
+                                                      reservations[index]
+                                                                  .status ==
+                                                              0
+                                                          ? "Menunggu Customer"
+                                                          : "Selesai",
+                                                      style: TextStyle(
+                                                        color: reservations[
+                                                                        index]
+                                                                    .status ==
+                                                                0
+                                                            ? Color(0xffCE8938)
+                                                            : Color(0xff128817),
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ),
-                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ],
+                        ),
                       )
                     : Container(
-                      margin: EdgeInsets.fromLTRB(0, 15, 0, 70),
+                        margin: EdgeInsets.fromLTRB(0, 15, 0, 70),
                         child: Column(
                           children: [
                             Image.asset(
@@ -478,11 +529,7 @@ class _AkunState extends State<Akun> {
                             ),
                           ],
                         ),
-                        
-
-                        
-
-                 )
+                      )
               ],
             ),
           ),
@@ -494,6 +541,31 @@ class _AkunState extends State<Akun> {
     String formattedDate =
         DateFormat('dd MMMM yyyy – kk:mm').format(reservationDate);
     return formattedDate;
+  }
+
+  Future<void> getDetails(String id) async {
+    print(loading);
+    setState(() {
+      loading = true;
+      errorMessage = '';
+      successMessage = "Sedang ambil data, mohon tunggu.";
+    });
+    final ReservationProvider provider =
+        Provider.of<ReservationProvider>(context, listen: false);
+    bool validate = await provider.getReservationDetails(id);
+    if (validate) {
+      setState(() {
+        loading = false;
+        successMessage = '';
+      });
+      Navigator.pushNamed(context, '/detailreservasi');
+    } else {
+      setState(() {
+        loading = false;
+        successMessage = '';
+        errorMessage = 'Error happend while fetching data';
+      });
+    }
   }
 
   Future<void> logout() async {
