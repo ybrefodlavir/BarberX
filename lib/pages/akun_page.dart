@@ -315,6 +315,7 @@ class _AkunState extends State<Akun> {
                         children: <Widget>[
                           Flexible(
                             child: ListView.builder(
+                                padding: EdgeInsets.zero,
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 itemCount: reservations.length,
