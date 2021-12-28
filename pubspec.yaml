@@ -85,6 +85,18 @@ flutter:
     - images/background1.png
     - images/location.png
     - images/no-reservasi.png
+    - images/price-1.jpg
+    - images/price-2.jpg
+    - images/price-3.jpg
+    - images/price-4.jpg
+    - images/price-5.jpg
+    - images/price-6.jpg
+    - images/price-7.jpg
+    - images/price-8.jpg
+    - images/price-9.jpg
+    - images/price-10.jpg
+    - images/price-11.jpg
+    - images/price-12.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -544,7 +544,6 @@ class _AkunState extends State<Akun> {
   }
 
   Future<void> getDetails(String id) async {
-    print(loading);
     setState(() {
       loading = true;
       errorMessage = '';
@@ -571,7 +570,10 @@ class _AkunState extends State<Akun> {
   Future<void> logout() async {
     final AuthProvider provider =
         Provider.of<AuthProvider>(context, listen: false);
-
+    final ReservationProvider provider1 =
+        Provider.of<ReservationProvider>(context, listen: false);
+    provider1.reservationDetails = [];
+    provider1.reservations = [];
     await provider.logOut();
     Navigator.pushNamed(context, '/');
   }

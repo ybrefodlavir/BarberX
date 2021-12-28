@@ -50,7 +50,7 @@ class _DetailReservationState extends State<DetailReservation> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 21, top: 19, right: 128),
+              margin: EdgeInsets.only(left: 21, top: 19),
               child: Text(
                 'Reservasi Code : ' + reservationDetails[0].reservation_code,
                 style: TextStyle(

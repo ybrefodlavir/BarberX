@@ -49,6 +49,7 @@ class AuthProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     if (token == '') {
       await prefs.setString('token', '');
+      await prefs.setString('sevices', '');
     } else {
       var data = jsonDecode(token);
       var user = jsonEncode(data[0]);

@@ -141,7 +141,8 @@ class _HomeMainState extends State<HomeMain> {
                       Row(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 10, right: 32),
+                            margin: EdgeInsets.only(
+                                left: 10, right: 32, bottom: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -167,7 +168,7 @@ class _HomeMainState extends State<HomeMain> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: 10),
+                            margin: EdgeInsets.only(right: 10, bottom: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -304,7 +305,9 @@ class _HomeMainState extends State<HomeMain> {
             Container(
               margin: EdgeInsets.only(left: 20, top: 25, right: 20),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
                 color: Color(0xffF8F8F8),
               ),
               child: Column(
@@ -312,13 +315,15 @@ class _HomeMainState extends State<HomeMain> {
                 children: [
                   Container(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
                       child: Image.asset(
                         'images/background1.png',
                         width: 374,
                         height: 125,
                       ),
-                    ),                   
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 17),
