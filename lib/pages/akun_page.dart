@@ -315,6 +315,7 @@ class _AkunState extends State<Akun> {
                         children: <Widget>[
                           Flexible(
                             child: ListView.builder(
+                                padding: EdgeInsets.zero,
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 itemCount: reservations.length,
@@ -443,12 +444,45 @@ class _AkunState extends State<Akun> {
                         ],
                       )
                     : Container(
-                        margin: EdgeInsets.only(top: 12),
-                        child: const Center(
-                          child: Text(
-                              "Sepertinya Anda belum punya reservasi di BarberX, tunggu apa lagi. Anda bisa menjadi lebih bergaya jika Anda membuat reservasi."),
+                      margin: EdgeInsets.fromLTRB(0, 15, 0, 70),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'images/no-reservasi.png',
+                            ),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                              child: const Center(
+                                child: Text(
+                                  "Opss!! Belum ada reservasi",
+                                  style: TextStyle(
+                                    color: Color(0xffA78849),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                              child: const Center(
+                                child: Text(
+                                  "Silakan buat reservasi pertama Anda untuk menjadi lebih bergaya dengan style rambut baru",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      )
+                        
+
+                        
+
+                 )
               ],
             ),
           ),
