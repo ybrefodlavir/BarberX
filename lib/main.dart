@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider<ReservationProvider>(
                   create: (context) => ReservationProvider(authProvider)),
             ],
-            child: MaterialApp(title: 'Welcome to BarberX', routes: {
+            child: MaterialApp(title: 'Welcome to BarberX', debugShowCheckedModeBanner: false, routes: {
               '/': (context) {
                 final authProvider = Provider.of<AuthProvider>(context);
                 if (authProvider.isAuthenticated) {

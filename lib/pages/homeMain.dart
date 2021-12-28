@@ -291,7 +291,7 @@ class _HomeMainState extends State<HomeMain> {
                   }),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10, top: 30, right: 194),
+              margin: EdgeInsets.only(left: 10, top: 30, right: 226),
               child: Text(
                 'Where to find us?',
                 style: TextStyle(
@@ -299,6 +299,73 @@ class _HomeMainState extends State<HomeMain> {
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, top: 25, right: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                color: Color(0xffF8F8F8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                      child: Image.asset(
+                        'images/background1.png',
+                        width: 374,
+                        height: 125,
+                      ),
+                    ),                   
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 17),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 21),
+                          child: Image.asset(
+                            'images/location.png',
+                            width: 17,
+                            height: 17,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 12),
+                          child: Text(
+                            'Robin East Street, No. 990',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 50, top: 8),
+                    child: Text(
+                      'Sacramento, California',
+                      style: TextStyle(
+                        color: Color(0xff8B8B8B),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 50, top: 8, bottom: 31),
+                    child: Text(
+                      'United States',
+                      style: TextStyle(
+                        color: Color(0xff8B8B8B),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
 
